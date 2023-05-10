@@ -13,9 +13,11 @@ public class Consultation {
     String duree;
     List<String> locals;
     Integer nbs;
+    Integer anneeId;
+    Integer sessionId;
 
 
-    public Consultation(Integer horaireId,String module, String filiere, String date, String heure, String duree, List<String> locals, Integer nbs) {
+    public Consultation(Integer horaireId, String module, String filiere, String date, String heure, String duree, List<String> locals, Integer nbs, Integer anneeId, Integer sessionId) {
         this.horaireId = horaireId;
         this.module = module;
         this.filiere = filiere;
@@ -24,6 +26,16 @@ public class Consultation {
         this.duree = duree;
         this.locals = locals;
         this.nbs = nbs;
+        this.anneeId = anneeId;
+        this.sessionId = sessionId;
+    }
+
+    public Integer getAnneeId() {
+        return anneeId;
+    }
+
+    public Integer getSessionId() {
+        return sessionId;
     }
 
     public Integer getHoraireId() {
@@ -55,7 +67,7 @@ public class Consultation {
     }
 
     public String getFormattedLocals() {
-        return String.join(" - ", locals);
+        return String.join(" / ", locals);
     }
 
     public Integer getNbs() {

@@ -19,14 +19,13 @@ import java.sql.SQLException;
 public class AuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("email");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         try {
-            if (validateUserCredentials(username, password)) {
+            if (validateUserCredentials(email, password)) {
                 // Login successful, redirect to a success page or set session attributes
-                HttpSession session = request.getSession();
-                session.setAttribute("email", username);
+                request.getSession().setAttribute("email", email);
                 response.sendRedirect("home.jsp");
             } else {
                 // Login failed, redirect to an error page or set an error message
@@ -59,9 +58,14 @@ public class AuthServlet extends HttpServlet {
 
         return false;
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().setAttribute("email", null);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("auth.jsp");
+        requestDispatcher.forward(request, response);
+
         // Not supported, send an error response
-        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method not supported for this action.");
+        // response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method not supported for this action.");
     }
 }

@@ -5,7 +5,8 @@ public class Session {
     String nom;
     String type;
 
-    public Session(String nom, String type) {
+    public Session(Integer id,String nom, String type) {
+        this.id = id;
         this.nom = nom;
         this.type = type;
     }

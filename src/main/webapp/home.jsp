@@ -22,11 +22,11 @@
         }
 
         .login-form {
-            width: 300px;
+            width: 400px;
             padding: 30px;
             background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 6px 5px 8px 5px rgba(0, 0, 0, 0.1);
         }
 
         .login-form h2 {
@@ -73,6 +73,7 @@
             background-color: #3f7dc6;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <header>
@@ -82,9 +83,9 @@
     <div class="login-form">
         <h2>Services</h2>
 
-        <button class="btn" onclick="window.location.href = 'consultation';">Consultation</button>
-        <button class="btn" onclick="window.location.href = 'affectation';">Affectation Des surveillances</button>
-        <button class="btn" onclick="window.location.href = 'gestion';">Gestion des profs et modules</button>
+        <button class="btn" onclick="window.location.href = 'consultation';"><i class="fa-regular fa-clipboard"></i> Consultation</button>
+        <button class="btn" onclick="window.location.href = 'affectation';"><i class="fa-regular fa-user" style="color: #f5f5f5;"></i> Affectation Des surveillances</button>
+        <button class="btn" onclick="window.location.href = 'gestion';"><i class="fa-solid fa-book"></i> Gestion des profs et modules</button>
     </div>
 </section>
 

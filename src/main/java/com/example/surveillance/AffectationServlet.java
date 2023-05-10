@@ -1,7 +1,6 @@
 package com.example.surveillance;
 
 import com.example.surveillance.Dto.*;
-import com.example.surveillance.Dto.Module;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.lang.annotation.AnnotationFormatError;
-import java.net.Inet4Address;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "affectationServlet", value = "/affectation")
-public class AffactationServlet extends HttpServlet {
+public class AffectationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,8 +52,8 @@ public class AffactationServlet extends HttpServlet {
             }
         }
 
-        //response.sendRedirect("affectation-final");
-        response.sendRedirect(request.getRequestURI());
+        response.sendRedirect("affectation-final");
+        //response.sendRedirect(request.getRequestURI());
     }
 
 
@@ -64,13 +61,14 @@ public class AffactationServlet extends HttpServlet {
     private List<Affectation> fetchAll() {
         List<Affectation> affectations = new ArrayList<>();
 
-        String query = "SELECT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree " +
+        String query = "SELECT DISTINCT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree " +
                 "from filiere" +
                 "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
-                "         inner join annee a on fa.id_annee = a.id" +
+                "         inner join annee a on fa.id_annee = a.id\n" +
                 "         inner join semestre s on a.id = s.annee" +
                 "         inner join session s2 on s.id = s2.semestre" +
-                "         inner join module m on s.id = m.semestre" +
+                "         inner join filiere_module fm on filiere.id = fm.filiere" +
+                "         inner join module m on fm.module = m.id" +
                 "         inner join horaire h on m.id = h.module";
 
         try {
@@ -110,8 +108,9 @@ public class AffactationServlet extends HttpServlet {
                 int id = resultSet.getInt("id");
                 String nom = resultSet.getString("nom");
                 int capacite = resultSet.getInt("capacite");
+                int respo = resultSet.getInt("respo");
 
-                Local local = new Local(id, nom, capacite);
+                Local local = new Local(id, nom, capacite,respo);
                 locals.add(local);
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -146,7 +145,7 @@ public class AffactationServlet extends HttpServlet {
     //endregion
 
     //region update
-    private boolean updateLocal(Integer id, Integer respo) {
+    public static boolean updateLocal(Integer id, Integer respo) {
         String query = "UPDATE locale SET respo = ? WHERE id = ?";
 
         try {
@@ -182,7 +181,7 @@ public class AffactationServlet extends HttpServlet {
         return false;
     }
 
-    private boolean deleteAllLocationsOfHoraire(Integer id) {
+    private void deleteAllLocationsOfHoraire(Integer id) {
         String query = "delete from location WHERE horaire = ?";
 
         try {
@@ -191,12 +190,10 @@ public class AffactationServlet extends HttpServlet {
             preparedStatement.setInt(1, id);
 
             int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
-        return false;
     }
     //endregion
 }

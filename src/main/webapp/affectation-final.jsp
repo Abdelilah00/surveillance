@@ -1,8 +1,5 @@
-<%@ page import="com.example.surveillance.Dto.Affectation" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.surveillance.Dto.Local" %>
-<%@ page import="com.example.surveillance.Dto.Tmp" %>
-<%@ page import="com.example.surveillance.Dto.Session" %><%--
+<%@ page import="com.example.surveillance.Dto.*" %><%--
   Created by IntelliJ IDEA.
   User: AbdelilahDehaoui
   Date: 04/05/2023
@@ -21,7 +18,7 @@
         }
 
         .container {
-            margin: 10px
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -29,21 +26,27 @@
 <header>
     <jsp:include page="navbar.jsp"/>
 </header>
-<section class="container-fluid">
+<section class="container">
     <div class="row d-flex justify-content-between">
         <div>
-            <button class="btn btn-primary" onclick="console.log('create a function that export this table')">Imprimer</button>
-            <button class="btn btn-primary" onclick="window.location='affectation'">modifier</button>
-            <button class="btn btn-primary" onclick="window.location='affectation'">affecter</button>
+            <div>
+                <button class="btn btn-primary" id="printButton"><i class="fa-solid fa-print"></i> Imprimer</button>
+                <button class="btn btn-primary" onclick="window.location='gestion'"><i
+                        class="fa-solid fa-pen-to-square"></i> Modifier
+                </button>
+                <button class="btn btn-primary" onclick="window.location='affectation'"><i class="fa-solid fa-link"></i>Affecter
+                </button>
+            </div>
         </div>
 
-        <div>
+        <form method="POST" action="affectation-final">
             <select name="annee" id="annee">
                 <%
                     List<Tmp> annees = (List<Tmp>) request.getAttribute("annees");
                     if (annees != null && !annees.isEmpty()) {
-                        for (Tmp module : annees) { %>
-                <option value="<%=module.getValue()%>"><%=module.getValue()%>
+                        for (Tmp annee : annees) { %>
+                <option <% if (request.getAttribute("anneeSelected") != null && request.getAttribute("anneeSelected").equals(annee.getKey())) { %>
+                        selected <% } %> value="<%=annee.getKey()%>"><%=annee.getValue()%>
                 </option>
                 <% }
                 } else { %>
@@ -56,7 +59,8 @@
                     List<Session> sessions = (List<Session>) request.getAttribute("sessions");
                     if (sessions != null && !sessions.isEmpty()) {
                         for (Session session1 : sessions) { %>
-                <option value="<%=session1.getId()%>"><%=session1.getNom()%> / <%=session1.getType()%>
+                <option <% if (request.getAttribute("sessionSelected") != null && request.getAttribute("sessionSelected").equals(session1.getId())) { %>
+                        selected <% } %> value="<%=session1.getId()%>"><%=session1.getNom()%> / <%=session1.getType()%>
                 </option>
                 <% }
                 } else { %>
@@ -64,14 +68,16 @@
                 <% } %>
             </select>
 
-            <button class="btn btn-primary" onclick="console.log('search')">search icon</button>
-        </div>
+            <button class="btn btn-primary" id="btnSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
     </div>
 
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th colspan="6">Annee/session.nom/session.type</th>
+            <th colspan="6" id="tableHeader">
+                <%= request.getAttribute("tableHeader") %>
+            </th>
         </tr>
         <tr>
             <th>Filiere</th>
@@ -84,9 +90,9 @@
         </thead>
         <tbody>
         <%
-            List<Affectation> affectations = (List<Affectation>) request.getAttribute("affectations");
+            List<Consultation> affectations = (List<Consultation>) request.getAttribute("consultations");
             if (affectations != null && !affectations.isEmpty()) {
-                for (Affectation affectation : affectations) { %>
+                for (Consultation affectation : affectations) { %>
         <tr>
             <td><%= affectation.getFiliere() %>
             </td>
@@ -98,6 +104,8 @@
             </td>
             <td><%= affectation.getDuree() %>
             </td>
+            <td><%= affectation.getFormattedLocals() %>
+            </td>
         </tr>
         <% }
         } else { %>
@@ -107,7 +115,29 @@
         <% } %>
         </tbody>
     </table>
-    <button class="btn btn-primary">Valider</button>
 </section>
+<script>
+    document.getElementById("printButton").addEventListener("click", function () {
+        // Get the table HTML
+        var tableHtml = document.querySelector("table").outerHTML;
+
+        // Create a print window
+        var printWindow = window.open("", "Print");
+        printWindow.document.write("<html><head><title>Table</title></head><body>");
+
+        // Add the table HTML to the print window
+        printWindow.document.write(tableHtml);
+
+        // Close the print window after the print dialog is closed
+        printWindow.onafterprint = function () {
+            printWindow.close();
+        };
+
+        // Print the window
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+        printWindow.print();
+    });
+</script>
 </body>
 </html>

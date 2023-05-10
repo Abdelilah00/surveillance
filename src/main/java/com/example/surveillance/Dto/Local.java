@@ -4,11 +4,17 @@ public class Local {
     private Integer id;
     private String nom;
     private Integer capacite;
+    private Integer respo;
 
-    public Local(Integer id, String nom, Integer capacite) {
+    public Integer getRespo() {
+        return respo;
+    }
+
+    public Local(Integer id, String nom, Integer capacite, Integer respo) {
         this.id = id;
         this.nom = nom;
         this.capacite = capacite;
+        this.respo = respo;
     }
 
     public Integer getId() {

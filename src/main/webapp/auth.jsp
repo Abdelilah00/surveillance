@@ -22,16 +22,17 @@
         }
 
         .login-form {
-            width: 300px;
+            width: 350px;
             padding: 30px;
             background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 6px 5px 8px 5px rgba(0, 0, 0, 0.1);
         }
 
         .login-form h2 {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: center;
+            color: #3f7dc6;
         }
 
         .form-group {
@@ -57,12 +58,13 @@
         }
 
         .submit-btn {
+            margin-left: 25%;
             display: block;
-            width: 100%;
+            width: 50%;
             padding: 10px;
             background-color: #4A90E2;
             border: none;
-            border-radius: 3px;
+            border-radius: 5px;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
@@ -72,17 +74,18 @@
             background-color: #3f7dc6;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <div class="login-form">
-    <h2>Login</h2>
+    <h2>Authentification</h2>
     <form action="auth" method="post">
         <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email"><i class="fa-solid fa-envelope"></i> Email:</label>
             <input type="text" id="email" name="email" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password"><i class="fa-solid fa-lock"></i> Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit" class="submit-btn">Login</button>

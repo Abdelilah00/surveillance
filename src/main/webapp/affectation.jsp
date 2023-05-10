@@ -1,13 +1,14 @@
-<%@ page import="com.example.surveillance.Dto.Affectation" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.example.surveillance.Dto.Local" %>
-<%@ page import="com.example.surveillance.Dto.Tmp" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: AbdelilahDehaoui
   Date: 04/05/2023
   Time: 14:53
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="com.example.surveillance.Dto.Affectation" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.surveillance.Dto.Local" %>
+<%@ page import="com.example.surveillance.Dto.Tmp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -20,23 +21,27 @@
         }
 
         .container {
-            margin: 10px
+            margin-top: 10px
+        }
+        table{
+            margin-top: 10px;
         }
     </style>
+
 </head>
 <body>
 <header>
     <jsp:include page="navbar.jsp"/>
 </header>
-<section class="container-fluid">
-    <button class="btn btn-primary" onclick="window.location = 'home.jsp'">Back</button>
-    <button class="btn btn-primary" onclick="window.location = 'affectation-final'">final view</button>
+<section class="container">
+    <button class="btn btn-primary" onclick="window.history.back()"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> Back</button>
+
     <form action="affectation" method="POST">
         <table class="table table-bordered">
             <thead>
-            <tr>
+<%--            <tr>
                 <th colspan="6">Annee/session.nom/session.type</th>
-            </tr>
+            </tr>--%>
             <tr>
                 <th>Filiere</th>
                 <th>Epreuve</th>
