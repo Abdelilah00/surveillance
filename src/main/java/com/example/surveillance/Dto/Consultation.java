@@ -17,7 +17,7 @@ public class Consultation {
     Integer sessionId;
 
 
-    public Consultation(Integer horaireId, String module, String filiere, String date, String heure, String duree, List<String> locals, Integer nbs, Integer anneeId, Integer sessionId) {
+    public Consultation(Integer horaireId, String module, String filiere, String date, String heure, String duree, List<String> locals, Integer nbs, Integer anneeId, Integer sessionId ) {
         this.horaireId = horaireId;
         this.module = module;
         this.filiere = filiere;

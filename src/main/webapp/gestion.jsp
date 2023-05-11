@@ -15,6 +15,10 @@
     <title>Gestion</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+
     <style>
         th {
             text-align: center;
@@ -93,7 +97,9 @@
             color: red;
             font-size: 16px;
         }
-
+        .btn-primary {
+            background-color: #00718D !important;
+        }
     </style>
 </head>
 
@@ -276,14 +282,14 @@
                         String sessionName = entry.getKey();
                         List<ProfAndModule> sessionData = entry.getValue();
             %>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped">
                 <thead>
-                <tr>
+                <tr class="table-active">
                     <th colspan="6"><h3><%= sessionName %>
                     </h3>
                     </th>
                 </tr>
-                <tr>
+                <tr class="table-info">
                     <th>numero</th>
                     <th>Nom et prenom</th>
                     <th>Module</th>

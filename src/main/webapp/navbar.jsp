@@ -13,7 +13,7 @@
 
     <style>
         .navbar {
-            background-color: #333;
+            background-color: #00718D;
             overflow: hidden;
             display: flex;
             justify-content: end;
@@ -32,8 +32,7 @@
 
         .navbar a:hover {
             /*background-color: #ddd;*/
-            background-color: #106c93;
-
+            background-color: #FA7F15;
             color: black;
         }
     </style>

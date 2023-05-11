@@ -103,7 +103,7 @@ public class AffactationFinalServlet extends HttpServlet {
                 "         inner join semestre s on a.id = s.annee" +
                 "         inner join session s2 on s.id = s2.semestre" +
                 "         inner join filiere_module fm on filiere.id = fm.filiere" +
-                "         inner join module m on fm.module = m.id" +
+                "         inner join module m on fm.module = m.id and s.id = m.semestre" +
                 "         inner join horaire h on m.id = h.module";
 
         String query2 = "select horaire.id as horaireId, p.nom as respoName, l2.nom as localName " +

@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+
     <title>Login Page</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Montserrat', sans-serif;
         }
 
         section {
@@ -18,7 +23,6 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-image: url("gray (2).jpg");
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -28,13 +32,13 @@
             padding: 30px;
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 6px 6px 11px 5px rgb(99, 136, 166);
-            background-image: url("blue.jpg");
+            box-shadow: 4px 6px 19px 0px rgb(99, 136, 166);
         }
 
         .login-form h1 {
             margin-bottom: 15px;
             text-align: center;
+            color: #00718D;
         }
 
         .form-group {
@@ -56,24 +60,24 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #4A90E2;
+            border-color: #00718D;
         }
 
         .btn {
-            margin: 25px 0;
+            margin: 25px;
             display: block;
-            width: 100%;
+            width: 90%;
             padding: 10px;
-            background-color: #5c98de;
+            background-color: #00718D;
             border: none;
             border-radius: 5px;
             color: #fff;
-            font-size: 30px;
+            font-size: 25px;
             cursor: pointer;
         }
 
         .btn:hover {
-            background-color: rgb(241, 123, 13);
+            background-color: #FA7F15;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

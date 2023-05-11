@@ -76,15 +76,17 @@ public class ConsultationServlet extends HttpServlet {
         List<Consultation> consultations = new ArrayList<>();
         List<Tmp> locals = fetchHoraireLocal();
 
-        String query = "SELECT DISTINCT h.id as horaireId, filiere.nom as filiere, m.nom as module, date, heure, duree , a.id as anneeId, s2.id as sessionId " +
+        String query = "SELECT DISTINCT h.id as horaireId, filiere.nom as filiere, m.nom as module, date, heure, duree , a.id as anneeId, s2.id as sessionId,l2.nbr_surveillant as nbs " +
                 "from filiere" +
                 "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
-                "         inner join annee a on fa.id_annee = a.id\n" +
+                "         inner join annee a on fa.id_annee = a.id " +
                 "         inner join semestre s on a.id = s.annee" +
                 "         inner join session s2 on s.id = s2.semestre" +
                 "         inner join filiere_module fm on filiere.id = fm.filiere" +
-                "         inner join module m on fm.module = m.id" +
-                "         inner join horaire h on m.id = h.module";
+                "         inner join module m on fm.module = m.id and s.id = m.semestre" +
+                "         inner join horaire h on m.id = h.module " +
+                "         inner join location l on h.id = l.horaire " +
+                "         inner join locale l2 on l.locale = l2.id";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -100,10 +102,11 @@ public class ConsultationServlet extends HttpServlet {
                 String duree = resultSet.getString("duree");
                 Integer anneeId = resultSet.getInt("anneeId");
                 Integer sessionId = resultSet.getInt("sessionId");
+                Integer nbs = resultSet.getInt("nbs");
 
                 List<String> localsByHoraire = locals.stream().filter(item -> Objects.equals(item.getKey(), horaireId)).map(Tmp::getValue).collect(Collectors.toList());
 
-                Consultation consultation = new Consultation(horaireId, module, filiere, date, heure, duree, localsByHoraire, 0, anneeId, sessionId);
+                Consultation consultation = new Consultation(horaireId, module, filiere, date, heure, duree, localsByHoraire, nbs, anneeId, sessionId);
                 consultations.add(consultation);
             }
         } catch (ClassNotFoundException | SQLException e) {
