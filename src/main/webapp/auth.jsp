@@ -18,25 +18,26 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-image: url("blue.jpg");
+            background-color: #d70505;
         }
 
         .login-form {
-            width: 350px;
+            width: 500px;
             padding: 30px;
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 6px 5px 8px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 6px 6px 11px 5px rgb(99, 136, 166);
+            background-image: url("blue.jpg");
         }
 
-        .login-form h2 {
-            margin-bottom: 20px;
+        .login-form h1 {
+            margin-bottom: 15px;
             text-align: center;
-            color: #3f7dc6;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin: 20px 0;
         }
 
         .form-group label {
@@ -57,28 +58,28 @@
             border-color: #4A90E2;
         }
 
-        .submit-btn {
-            margin-left: 25%;
+        .btn {
             display: block;
-            width: 50%;
+            width: 100%;
             padding: 10px;
             background-color: #4A90E2;
             border: none;
             border-radius: 5px;
             color: #fff;
-            font-size: 16px;
+            font-size: 30px;
             cursor: pointer;
         }
 
-        .submit-btn:hover {
-            background-color: #3f7dc6;
+        .btn:hover {
+            background-color: rgb(241, 123, 13);
         }
     </style>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <div class="login-form">
-    <h2>Authentification</h2>
+    <h1>Authentification</h1>
     <form action="auth" method="post">
         <div class="form-group">
             <label for="email"><i class="fa-solid fa-envelope"></i> Email:</label>
@@ -88,7 +89,7 @@
             <label for="password"><i class="fa-solid fa-lock"></i> Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit" class="submit-btn">Login</button>
+        <button type="submit" class="btn">Login</button>
     </form>
     <% if (request.getAttribute("errorMessage") != null) { %>
     <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>

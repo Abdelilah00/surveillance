@@ -18,18 +18,21 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-image: url("gray (2).jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         .login-form {
-            width: 400px;
+            width: 600px;
             padding: 30px;
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 6px 5px 8px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 6px 6px 11px 5px rgb(99, 136, 166);
+            background-image: url("blue.jpg");
         }
 
-        .login-form h2 {
+        .login-form h1 {
             margin-bottom: 15px;
             text-align: center;
         }
@@ -57,20 +60,20 @@
         }
 
         .btn {
-            margin: 10px;
+            margin: 25px 0;
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #4A90E2;
+            background-color: #5c98de;
             border: none;
-            border-radius: 3px;
+            border-radius: 5px;
             color: #fff;
-            font-size: 16px;
+            font-size: 30px;
             cursor: pointer;
         }
 
         .btn:hover {
-            background-color: #3f7dc6;
+            background-color: rgb(241, 123, 13);
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -81,11 +84,17 @@
 </header>
 <section>
     <div class="login-form">
-        <h2>Services</h2>
-
-        <button class="btn" onclick="window.location.href = 'consultation';"><i class="fa-regular fa-clipboard"></i> Consultation</button>
-        <button class="btn" onclick="window.location.href = 'affectation';"><i class="fa-regular fa-user" style="color: #f5f5f5;"></i> Affectation Des surveillances</button>
-        <button class="btn" onclick="window.location.href = 'gestion';"><i class="fa-solid fa-book"></i> Gestion des profs et modules</button>
+        <h1>Services</h1>
+        <button class="btn" onclick="window.location.href = 'consultation';"><i class="fa-regular fa-clipboard"></i>
+            Consultation
+        </button>
+        <button class="btn" onclick="window.location.href = 'affectation';"><i class="fa-regular fa-user"
+                                                                               style="color: #f5f5f5;"></i> Affectation
+            Des surveillances
+        </button>
+        <button class="btn" onclick="window.location.href = 'gestion';"><i class="fa-solid fa-book"></i> Gestion des
+            profs et modules
+        </button>
     </div>
 </section>
 
