@@ -79,14 +79,14 @@
         </form>
     </div>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped" style="margin-top: 70px">
         <thead>
-        <tr>
+        <tr class="table-info">
             <th colspan="6" id="tableHeader">
                 <%= request.getAttribute("tableHeader") %>
             </th>
         </tr>
-        <tr>
+        <tr class="table-info">
             <th>Filiere</th>
             <th>Epreuve</th>
             <th>Date</th>

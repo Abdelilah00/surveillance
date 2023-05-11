@@ -284,7 +284,7 @@
             %>
             <table class="table table-bordered table-striped">
                 <thead>
-                <tr class="table-active">
+                <tr class="table-info">
                     <th colspan="6"><h3><%= sessionName %>
                     </h3>
                     </th>

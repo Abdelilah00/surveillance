@@ -126,7 +126,7 @@ public class GestionServlet extends HttpServlet {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            int i = 0;
+            int i = 1;
             while (resultSet.next()) {
                 //int id = resultSet.getInt("id");
                 //int numero = resultSet.getInt("numero");
@@ -287,27 +287,4 @@ public class GestionServlet extends HttpServlet {
     }
 
     //endregion
-
-    private ProfAndModule fetchProduct(int id) {
-        String query = "SELECT * FROM products WHERE id = ?";
-
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String name = resultSet.getString("name");
-                double price = resultSet.getDouble("price");
-
-                return new ProfAndModule(id, name, name, name, name);
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

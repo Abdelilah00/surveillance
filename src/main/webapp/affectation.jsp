@@ -28,7 +28,8 @@
             margin-top: 10px
         }
         table{
-            margin-top: 10px;
+            margin-top: 70px;
+            border-radius: 6px;
         }
         .btn-primary {
             background-color: #00718D;
@@ -44,12 +45,12 @@
     <button class="btn btn-primary" onclick="window.history.back()"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> Back</button>
 
     <form action="affectation" method="POST">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
 <%--            <tr>
                 <th colspan="6">Annee/session.nom/session.type</th>
             </tr>--%>
-            <tr>
+            <tr class="table-info">
                 <th>Filiere</th>
                 <th>Epreuve</th>
                 <th>Date</th>

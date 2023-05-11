@@ -27,17 +27,18 @@ public class ConsultationServlet extends HttpServlet {
 
         List<Session> sessions = fetchSessions();
         List<Tmp> annees = fetchAnnees();
-        var s = sessions.get(0);
-        var a = annees.get(0);
 
-        List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(s.getId()) && item.getAnneeId().equals(a.getKey())).collect(Collectors.toList());
+        Session session = sessions.get(0);
+        Tmp annee = annees.get(0);
+
+        List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(session.getId()) && item.getAnneeId().equals(annee.getKey())).collect(Collectors.toList());
 
 
         request.setAttribute("consultations", consultations);
         request.setAttribute("sessions", sessions);
         request.setAttribute("annees", annees);
 
-        request.setAttribute("tableHeader", a.getValue() + " / " + s.getNom() + " / " + s.getType());
+        request.setAttribute("tableHeader", annee.getValue() + " / " + session.getNom() + " / " + session.getType());
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("consultation.jsp");
         requestDispatcher.forward(request, response);

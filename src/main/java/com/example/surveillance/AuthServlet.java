@@ -38,13 +38,13 @@ public class AuthServlet extends HttpServlet {
         }
     }
 
-    private boolean validateUserCredentials(String username, String password) throws SQLException {
+    private boolean validateUserCredentials(String mail, String password) throws SQLException {
         String query = "SELECT * FROM professeur WHERE email = ? AND password = ? AND admin = true";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, mail);
             preparedStatement.setString(2, password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
