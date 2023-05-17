@@ -17,7 +17,8 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;1,700&display=swap"
+          rel="stylesheet">
 
     <style>
         th {
@@ -97,6 +98,7 @@
             color: red;
             font-size: 16px;
         }
+
         .btn-primary {
             background-color: #00718D !important;
         }
@@ -146,13 +148,127 @@
 
             <div class="row">
                 <form action="gestion" method="post">
+                    <h3>Ajouter un nouveau Module</h3>
+                    <input type="hidden" name="action" value="insertModule">
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="nbrinscrits" placeholder="nbrinscrits" required>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="semestre">
+                            <%
+                                List<Tmp> semestres = (List<Tmp>) request.getAttribute("semestres");
+                                if (semestres != null && !semestres.isEmpty()) {
+                                    for (Tmp semestre : semestres) { %>
+                            <option value="<%=semestre.getKey()%>"><%=semestre.getValue()%>
+                            </option>
+                            <% }
+                            } else { %>
+                            <option value="" disabled selected>No professors available</option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="professeur">
+                            <%
+                                List<Professeur> professeurs = (List<Professeur>) request.getAttribute("professeurs");
+                                if (professeurs != null && !professeurs.isEmpty()) {
+                                    for (Professeur professeur : professeurs) { %>
+                            <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
+                            </option>
+                            <% }
+                            } else { %>
+                            <option value="" disabled selected>No professors available</option>
+                            <% } %>
+                        </select>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Ajouter Module</button>
+                    <% if (request.getAttribute("errorMessage") != null) { %>
+                    <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
+                    </p>
+                    <% } %>
+                </form>
+            </div>
+            <div class="row">
+                <form action="gestion" method="post">
+                    <h3>Ajouter un nouveau Filiere</h3>
+                    <input type="hidden" name="action" value="insertFiliere">
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="professeur">
+                            <%
+                                if (professeurs != null && !professeurs.isEmpty()) {
+                                    for (Professeur professeur : professeurs) { %>
+                            <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
+                            </option>
+                            <% }
+                            } else { %>
+                            <option value="" disabled selected>No professors available</option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Ajouter Filiere</button>
+                    <% if (request.getAttribute("errorMessage") != null) { %>
+                    <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
+                    </p>
+                    <% } %>
+                </form>
+            </div>
+            <div class="row">
+            <form action="gestion" method="post">
+                <h3>Ajouter un nouveau Local</h3>
+                <input type="hidden" name="action" value="insertLocal">
+                <div class="form-group">
+                    <input type="text" name="nom" placeholder="nom" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="capacite" placeholder="capacite" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="nbr_sur" placeholder="nbr_sur" required>
+                </div>
+
+                <div class="form-group">
+                    <select name="professeur">
+                        <%
+                            if (professeurs != null && !professeurs.isEmpty()) {
+                                for (Professeur professeur : professeurs) { %>
+                        <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
+                        </option>
+                        <% }
+                        } else { %>
+                        <option value="" disabled selected>No professors available</option>
+                        <% } %>
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Ajouter Local</button>
+                <% if (request.getAttribute("errorMessage") != null) { %>
+                <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
+                </p>
+                <% } %>
+            </form>
+        </div>
+
+            <div class="row">
+                <form action="gestion" method="post">
                     <h3>Changer responsable de module</h3>
                     <input type="hidden" name="action" value="updateModule">
 
                     <div class="form-group">
                         <select name="professeur">
                             <%
-                                List<Professeur> professeurs = (List<Professeur>) request.getAttribute("professeurs");
                                 if (professeurs != null && !professeurs.isEmpty()) {
                                     for (Professeur professeur : professeurs) { %>
                             <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
@@ -185,7 +301,6 @@
                     <% } %>
                 </form>
             </div>
-
             <div class="row">
                 <form action="gestion" method="post">
                     <h3>Changer responsable de filiere</h3>
@@ -226,7 +341,6 @@
                     <% } %>
                 </form>
             </div>
-
             <div class="row">
                 <form action="gestion" method="post">
                     <h3>Changer responsable de locale</h3>

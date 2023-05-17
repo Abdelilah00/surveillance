@@ -26,12 +26,15 @@ public class GestionServlet extends HttpServlet {
         List<Local> locals = AffectationServlet.fetchLocals();
         List<Tmp> filieres = fetchFilieres();
         List<Professeur> professeurs = fetchProfesseurs();
+        List<Tmp> semestres = fetchSemestres();
 
         request.setAttribute("profAndModules", profAndModules);
         request.setAttribute("modules", modules);
         request.setAttribute("locals", locals);
         request.setAttribute("filieres", filieres);
         request.setAttribute("professeurs", professeurs);
+
+        request.setAttribute("semestres", semestres);
 
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("gestion.jsp");
@@ -87,6 +90,40 @@ public class GestionServlet extends HttpServlet {
             Integer local = Integer.parseInt(request.getParameter("local"));
 
             boolean success = AffectationServlet.updateLocal(local, professeur);
+            // Handle the result, e.g., show a message or redirect to another page
+            if (!success) {
+                request.setAttribute("errorMessage", "Invalid email or password.");
+            }
+            response.sendRedirect(request.getRequestURI());
+        } else if ("insertModule".equals(action)) {
+            String module = request.getParameter("nom");
+            Integer nbrinscrits = Integer.parseInt(request.getParameter("nbrinscrits"));
+            Integer semestre = Integer.parseInt(request.getParameter("semestre"));
+            Integer professeur = Integer.parseInt(request.getParameter("professeur"));
+
+            boolean success = insertModule(module, nbrinscrits, semestre, professeur);
+            // Handle the result, e.g., show a message or redirect to another page
+            if (!success) {
+                request.setAttribute("errorMessage", "Invalid email or password.");
+            }
+            response.sendRedirect(request.getRequestURI());
+        } else if ("insertFiliere".equals(action)) {
+            String filiere = request.getParameter("nom");
+            Integer professeur = Integer.parseInt(request.getParameter("professeur"));
+
+            boolean success = insertFiliere(filiere, professeur);
+            // Handle the result, e.g., show a message or redirect to another page
+            if (!success) {
+                request.setAttribute("errorMessage", "Invalid email or password.");
+            }
+            response.sendRedirect(request.getRequestURI());
+        } else if ("insertLocal".equals(action)) {
+            String nom = request.getParameter("nom");
+            Integer capacite = Integer.parseInt(request.getParameter("capacite"));
+            Integer nbr_sur = Integer.parseInt(request.getParameter("nbr_sur"));
+            Integer professeur = Integer.parseInt(request.getParameter("professeur"));
+
+            boolean success = insertLocal(nom, capacite, nbr_sur, professeur);
             // Handle the result, e.g., show a message or redirect to another page
             if (!success) {
                 request.setAttribute("errorMessage", "Invalid email or password.");
@@ -217,6 +254,30 @@ public class GestionServlet extends HttpServlet {
 
         return professeurs;
     }
+
+    public static List<Tmp> fetchSemestres() {
+        List<Tmp> professeurs = new ArrayList<>();
+
+        String query = "SELECT * FROM semestre";
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nom = resultSet.getString("nom");
+
+                Tmp professeur = new Tmp(id, nom);
+                professeurs.add(professeur);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return professeurs;
+    }
     //endregion
 
     //region insert
@@ -285,6 +346,64 @@ public class GestionServlet extends HttpServlet {
 
         return false;
     }
+    //endregion
 
+    // region insert
+    private boolean insertModule(String nom, Integer nbrinscrits, Integer semestre, Integer respo) {
+        String query = "INSERT INTO module(nom, nbrinscrits, semestre, respo)  VALUE(?,?,?,?)";
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, nom);
+            preparedStatement.setInt(2, nbrinscrits);
+            preparedStatement.setInt(2, semestre);
+            preparedStatement.setInt(2, respo);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private boolean insertFiliere(String nom, Integer respo) {
+        String query = "INSERT INTO filiere( nom, respo)  VALUES(?,?)";
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, nom);
+            preparedStatement.setInt(2, respo);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean insertLocal(String nom, Integer capacite, Integer nbr_surveillant, Integer respo) {
+        String query = "INSERT INTO locale( nom, capacite, nbr_surveillant, respo)  VALUES(?,?,?,?)";
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, nom);
+            preparedStatement.setInt(2, capacite);
+            preparedStatement.setInt(2, nbr_surveillant);
+            preparedStatement.setInt(2, respo);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     //endregion
 }
