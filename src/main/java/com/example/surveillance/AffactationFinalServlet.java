@@ -113,6 +113,7 @@ public class AffactationFinalServlet extends HttpServlet {
                 "inner join locale l2 on l.locale = l2.id " +
                 "inner join professeur p on l.surr = p.id";
 
+
         try {
             Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
@@ -129,6 +130,7 @@ public class AffactationFinalServlet extends HttpServlet {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+
 
 
         try {
@@ -154,9 +156,9 @@ public class AffactationFinalServlet extends HttpServlet {
                 List<String> localProfsString = localProfs.stream()
                         .filter(item -> item.getHoraireId().equals(horaireId))
                         .map(item -> {
-                            var lc = locals.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()));
-                            var md = modules.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()));
-                            var str = item.getLocalName()+" - ";
+                            var lc = locals.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()) && item.localName.equals(x.getNom()));
+                            var md = modules.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()) && module.equals(x.getNom()));
+                            var str = item.getLocalName() + " - ";
 
                             if (lc) str = str + "(";
                             str = str + item.getRespoName();
