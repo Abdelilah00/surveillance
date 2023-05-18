@@ -99,7 +99,7 @@ public class AffactationFinalServlet extends HttpServlet {
         String query = "SELECT DISTINCT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree, a.id as anneeId, s2.id as sessionId " +
                 "from filiere" +
                 "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
-                "         inner join annee a on fa.id_annee = a.id\n" +
+                "         inner join annee a on fa.id_annee = a.id" +
                 "         inner join semestre s on a.id = s.annee" +
                 "         inner join session s2 on s.id = s2.semestre" +
                 "         inner join filiere_module fm on filiere.id = fm.filiere" +

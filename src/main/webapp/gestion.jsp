@@ -111,7 +111,8 @@
 </header>
 <section class="container">
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
+
             <div class="row">
                 <form action="gestion" method="post">
                     <h3>Ajouter un nouveau Prof</h3>
@@ -197,72 +198,6 @@
             </div>
             <div class="row">
                 <form action="gestion" method="post">
-                    <h3>Ajouter un nouveau Filiere</h3>
-                    <input type="hidden" name="action" value="insertFiliere">
-                    <div class="form-group">
-                        <input type="text" name="nom" placeholder="nom" required>
-                    </div>
-
-                    <div class="form-group">
-                        <select name="professeur">
-                            <%
-                                if (professeurs != null && !professeurs.isEmpty()) {
-                                    for (Professeur professeur : professeurs) { %>
-                            <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
-                            </option>
-                            <% }
-                            } else { %>
-                            <option value="" disabled selected>No professors available</option>
-                            <% } %>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Ajouter Filiere</button>
-                    <% if (request.getAttribute("errorMessage") != null) { %>
-                    <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
-                    </p>
-                    <% } %>
-                </form>
-            </div>
-            <div class="row">
-            <form action="gestion" method="post">
-                <h3>Ajouter un nouveau Local</h3>
-                <input type="hidden" name="action" value="insertLocal">
-                <div class="form-group">
-                    <input type="text" name="nom" placeholder="nom" required>
-                </div>
-                <div class="form-group">
-                    <input type="number" name="capacite" placeholder="capacite" required>
-                </div>
-                <div class="form-group">
-                    <input type="number" name="nbr_sur" placeholder="nbr_sur" required>
-                </div>
-
-                <div class="form-group">
-                    <select name="professeur">
-                        <%
-                            if (professeurs != null && !professeurs.isEmpty()) {
-                                for (Professeur professeur : professeurs) { %>
-                        <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
-                        </option>
-                        <% }
-                        } else { %>
-                        <option value="" disabled selected>No professors available</option>
-                        <% } %>
-                    </select>
-                </div>
-
-
-                <button type="submit" class="btn btn-primary">Ajouter Local</button>
-                <% if (request.getAttribute("errorMessage") != null) { %>
-                <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
-                </p>
-                <% } %>
-            </form>
-        </div>
-
-            <div class="row">
-                <form action="gestion" method="post">
                     <h3>Changer responsable de module</h3>
                     <input type="hidden" name="action" value="updateModule">
 
@@ -297,6 +232,37 @@
                     <button type="submit" class="btn btn-primary">Changer</button>
                     <% if (request.getAttribute("errorUpdateRespoModuleMessage") != null) { %>
                     <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorUpdateRespoMessage") %>
+                    </p>
+                    <% } %>
+                </form>
+            </div>
+
+
+            <div class="row">
+                <form action="gestion" method="post">
+                    <h3>Ajouter un nouveau Filiere</h3>
+                    <input type="hidden" name="action" value="insertFiliere">
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="professeur">
+                            <%
+                                if (professeurs != null && !professeurs.isEmpty()) {
+                                    for (Professeur professeur : professeurs) { %>
+                            <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
+                            </option>
+                            <% }
+                            } else { %>
+                            <option value="" disabled selected>No professors available</option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Ajouter Filiere</button>
+                    <% if (request.getAttribute("errorMessage") != null) { %>
+                    <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
                     </p>
                     <% } %>
                 </form>
@@ -341,6 +307,44 @@
                     <% } %>
                 </form>
             </div>
+
+
+            <div class="row">
+                <form action="gestion" method="post">
+                    <h3>Ajouter un nouveau Local</h3>
+                    <input type="hidden" name="action" value="insertLocal">
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="capacite" placeholder="capacite" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="nbr_sur" placeholder="nbr_sur" required>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="professeur">
+                            <%
+                                if (professeurs != null && !professeurs.isEmpty()) {
+                                    for (Professeur professeur : professeurs) { %>
+                            <option value="<%=professeur.getId()%>"><%=professeur.getNom()%>
+                            </option>
+                            <% }
+                            } else { %>
+                            <option value="" disabled selected>No professors available</option>
+                            <% } %>
+                        </select>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Ajouter Local</button>
+                    <% if (request.getAttribute("errorMessage") != null) { %>
+                    <p style="color: red; margin-top: 15px;"><%= request.getAttribute("errorMessage") %>
+                    </p>
+                    <% } %>
+                </form>
+            </div>
             <div class="row">
                 <form action="gestion" method="post">
                     <h3>Changer responsable de locale</h3>
@@ -381,9 +385,10 @@
                     <% } %>
                 </form>
             </div>
+
         </div>
 
-        <div class="col-8">
+        <div class="col-9">
             <%
                 List<ProfAndModule> profAndModules = (List<ProfAndModule>) request.getAttribute("profAndModules");
                 if (profAndModules != null && !profAndModules.isEmpty()) {
@@ -408,6 +413,7 @@
                     <th>Nom et prenom</th>
                     <th>Module</th>
                     <th>filiére</th>
+                    <th>locale</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -421,6 +427,8 @@
                     <td><%= profAndModule.getModule() %>
                     </td>
                     <td><%= profAndModule.getFiliere() %>
+                    </td>
+                    <td><%= profAndModule.getLocale() %>
                     </td>
                     <td>
                         <button class="btn btn-danger" onclick="deleteModule('<%= profAndModule.getModule() %>')">

@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @WebServlet(name = "affectationServlet", value = "/affectation")
 public class AffectationServlet extends HttpServlet {
 
@@ -23,10 +24,12 @@ public class AffectationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Affectation> affectations = fetchAll();
         List<Local> locals = fetchLocals();
+        List<Professeur> professeurs = GestionServlet.fetchProfesseurs();
 
         request.setAttribute("affectations", affectations);
         request.setAttribute("locals", locals);
         request.setAttribute("horaireLocals", ConsultationServlet.fetchHoraireLocal());
+        request.setAttribute("professeurs", professeurs);
 
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("affectation.jsp");
@@ -63,13 +66,13 @@ public class AffectationServlet extends HttpServlet {
 
         String query = "SELECT DISTINCT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree " +
                 "from filiere" +
-                "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
-                "         inner join annee a on fa.id_annee = a.id\n" +
-                "         inner join semestre s on a.id = s.annee" +
-                "         inner join session s2 on s.id = s2.semestre" +
-                "         inner join filiere_module fm on filiere.id = fm.filiere" +
-                "         inner join module m on fm.module = m.id" +
-                "         inner join horaire h on m.id = h.module";
+                "         left join filiere_annee fa on filiere.id = fa.id_filiere" +
+                "         left join annee a on fa.id_annee = a.id\n" +
+                "         left join semestre s on a.id = s.annee" +
+                "         left join session s2 on s.id = s2.semestre" +
+                "         left join filiere_module fm on filiere.id = fm.filiere" +
+                "         left join module m on fm.module = m.id" +
+                "         left join horaire h on m.id = h.module";
 
         try {
             Connection connection = DatabaseConnection.getConnection();

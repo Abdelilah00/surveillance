@@ -151,10 +151,11 @@ public class GestionServlet extends HttpServlet {
     private List<ProfAndModule> fetchProfAndModules() {
         List<ProfAndModule> profAndModules = new ArrayList<>();
 
-        String query = "SELECT professeur.nom as nom, prenom, m.nom as module, f.nom as filiere, s2.nom as session\n" +
+        String query = "SELECT professeur.nom as nom, prenom, m.nom as module, f.nom as filiere, s2.nom as session,l.nom as locale " +
                 "FROM professeur\n" +
                 "LEFT JOIN module m ON professeur.id = m.respo\n" +
                 "LEFT JOIN filiere f ON professeur.id = f.respo\n" +
+                "LEFT JOIN locale l ON professeur.id = l.respo\n" +
                 "INNER JOIN semestre s ON m.semestre = s.id\n" +
                 "INNER JOIN session s2 ON s.id = s2.semestre;\n";
 
@@ -171,8 +172,9 @@ public class GestionServlet extends HttpServlet {
                 String module = resultSet.getString("module");
                 String filiere = resultSet.getString("filiere");
                 String session = resultSet.getString("session");
+                String locale = resultSet.getString("locale");
 
-                ProfAndModule profAndModule = new ProfAndModule(i++, nomAndPrenom, module, filiere, session);
+                ProfAndModule profAndModule = new ProfAndModule(i++, nomAndPrenom, module, filiere, session,locale);
                 profAndModules.add(profAndModule);
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -358,8 +360,8 @@ public class GestionServlet extends HttpServlet {
 
             preparedStatement.setString(1, nom);
             preparedStatement.setInt(2, nbrinscrits);
-            preparedStatement.setInt(2, semestre);
-            preparedStatement.setInt(2, respo);
+            preparedStatement.setInt(3, semestre);
+            preparedStatement.setInt(4, respo);
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -395,8 +397,8 @@ public class GestionServlet extends HttpServlet {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, nom);
             preparedStatement.setInt(2, capacite);
-            preparedStatement.setInt(2, nbr_surveillant);
-            preparedStatement.setInt(2, respo);
+            preparedStatement.setInt(3, nbr_surveillant);
+            preparedStatement.setInt(4, respo);
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
