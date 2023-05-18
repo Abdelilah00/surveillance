@@ -6,6 +6,20 @@ public class Local {
     private Integer capacite;
     private Integer respo;
 
+    public void setRespo(Integer respo) {
+        this.respo = respo;
+    }
+
+    public String getRespoName() {
+        return respoName;
+    }
+
+    public void setRespoName(String respoName) {
+        this.respoName = respoName;
+    }
+
+    private String respoName;
+
     public Integer getRespo() {
         return respo;
     }

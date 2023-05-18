@@ -41,6 +41,7 @@ public class AffactationFinalServlet extends HttpServlet {
         requestDispatcher.forward(request, response);
         //this.getServletContext().getRequestDispatcher("/views/employes/gestion.jsp")
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer anneeId = Integer.parseInt(request.getParameter("annee"));
@@ -146,15 +147,25 @@ public class AffactationFinalServlet extends HttpServlet {
                 Integer anneeId = resultSet.getInt("anneeId");
                 Integer sessionId = resultSet.getInt("sessionId");
 
+
+                var locals = AffectationServlet.fetchLocals();
+                var modules = GestionServlet.fetchModules();
+
                 List<String> localProfsString = localProfs.stream()
                         .filter(item -> item.getHoraireId().equals(horaireId))
-                        .map(item -> new StringBuilder()
-                                .append(item.getLocalName())
-                                .append(" (")
-                                .append(item.getRespoName())
-                                .append(")")
-                                .toString())
-                        .collect(Collectors.toList());
+                        .map(item -> {
+                            var lc = locals.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()));
+                            var md = modules.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()));
+                            var str = item.getLocalName()+" - ";
+
+                            if (lc) str = str + "(";
+                            str = str + item.getRespoName();
+                            if (lc) str = str + ")";
+
+                            if (md) str = str + "*";
+
+                            return str;
+                        }).collect(Collectors.toList());
 
 
                 //fill locals local-prof

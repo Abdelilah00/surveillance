@@ -99,7 +99,7 @@ public class AffectationServlet extends HttpServlet {
     public static List<Local> fetchLocals() {
         List<Local> locals = new ArrayList<>();
 
-        String query = "SELECT * FROM locale";
+        String query = "SELECT locale.id as id, locale.nom as nom, capacite, nbr_surveillant, respo, p.nom as respoName, prenom, admin, email, password FROM locale left join professeur p on p.id = locale.respo";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -111,8 +111,10 @@ public class AffectationServlet extends HttpServlet {
                 String nom = resultSet.getString("nom");
                 int capacite = resultSet.getInt("capacite");
                 int respo = resultSet.getInt("respo");
+                String respoName = resultSet.getString("respoName");
 
                 Local local = new Local(id, nom, capacite, respo);
+                local.setRespoName(respoName);
                 locals.add(local);
             }
         } catch (ClassNotFoundException | SQLException e) {

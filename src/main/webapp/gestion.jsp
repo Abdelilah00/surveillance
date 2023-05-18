@@ -413,7 +413,6 @@
                     <th>Nom et prenom</th>
                     <th>Module</th>
                     <th>filiére</th>
-                    <th>locale</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -427,8 +426,6 @@
                     <td><%= profAndModule.getModule() %>
                     </td>
                     <td><%= profAndModule.getFiliere() %>
-                    </td>
-                    <td><%= profAndModule.getLocale() %>
                     </td>
                     <td>
                         <button class="btn btn-danger" onclick="deleteModule('<%= profAndModule.getModule() %>')">

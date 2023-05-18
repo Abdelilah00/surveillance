@@ -151,13 +151,12 @@ public class GestionServlet extends HttpServlet {
     private List<ProfAndModule> fetchProfAndModules() {
         List<ProfAndModule> profAndModules = new ArrayList<>();
 
-        String query = "SELECT professeur.nom as nom, prenom, m.nom as module, f.nom as filiere, s2.nom as session,l.nom as locale " +
-                "FROM professeur\n" +
-                "LEFT JOIN module m ON professeur.id = m.respo\n" +
-                "LEFT JOIN filiere f ON professeur.id = f.respo\n" +
-                "LEFT JOIN locale l ON professeur.id = l.respo\n" +
-                "INNER JOIN semestre s ON m.semestre = s.id\n" +
-                "INNER JOIN session s2 ON s.session = s2.id;\n";
+        String query = "SELECT professeur.nom as nom, prenom, m.nom as module, f.nom as filiere, s2.nom as session " +
+                "FROM professeur " +
+                "LEFT JOIN module m ON professeur.id = m.respo " +
+                "LEFT JOIN filiere f ON professeur.id = f.respo " +
+                "INNER JOIN semestre s ON m.semestre = s.id " +
+                "INNER JOIN session s2 ON s.session = s2.id; ";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -172,9 +171,9 @@ public class GestionServlet extends HttpServlet {
                 String module = resultSet.getString("module");
                 String filiere = resultSet.getString("filiere");
                 String session = resultSet.getString("session");
-                String locale = resultSet.getString("locale");
+                //String locale = resultSet.getString("locale");
 
-                ProfAndModule profAndModule = new ProfAndModule(i++, nomAndPrenom, module, filiere, session,locale);
+                ProfAndModule profAndModule = new ProfAndModule(i++, nomAndPrenom, module, filiere, session,"");
                 profAndModules.add(profAndModule);
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -184,10 +183,10 @@ public class GestionServlet extends HttpServlet {
         return profAndModules;
     }
 
-    private List<Module> fetchModules() {
+    public static List<Module> fetchModules() {
         List<Module> modules = new ArrayList<>();
 
-        String query = "SELECT * FROM module";
+        String query = "SELECT module.id as id, module.nom as nom, nbrinscrits, semestre, respo, p.nom as respoName, prenom, admin, email, password FROM module left join professeur p on p.id = module.respo";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -197,8 +196,11 @@ public class GestionServlet extends HttpServlet {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String nom = resultSet.getString("nom");
+                Integer respo = resultSet.getInt("respo");
+                String respoName = resultSet.getString("respoName");
 
-                Module module = new Module(id, nom);
+                Module module = new Module(id, nom,respo);
+                module.setRespoName(respoName);
                 modules.add(module);
             }
         } catch (ClassNotFoundException | SQLException e) {
