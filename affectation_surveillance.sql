@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2023 at 01:22 AM
+-- Generation Time: May 19, 2023 at 12:23 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -56,15 +56,15 @@ CREATE TABLE `filiere` (
 --
 
 INSERT INTO `filiere` (`id`, `nom`, `respo`) VALUES
-(1, 'SMIA1', 32),
+(1, 'SMIA1', 1),
 (2, 'SMIA2', 2),
-(3, 'SMI3', 42),
+(3, 'SMI3', 3),
 (4, 'SMI4', 4),
-(5, 'SMI5', 33),
+(5, 'SMI5', 5),
 (6, 'SMI6', 6),
 (7, 'SMA5', 7),
 (8, 'SMA3', 8),
-(9, 'SMPC1', 16),
+(9, 'SMPC1', 9),
 (10, 'SVTU1', 10);
 
 -- --------------------------------------------------------
@@ -112,12 +112,21 @@ CREATE TABLE `filiere_module` (
 --
 
 INSERT INTO `filiere_module` (`id`, `filiere`, `module`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 5),
-(4, 2, 6),
-(5, 5, 8),
-(6, 6, 10);
+(1, 5, 5),
+(2, 5, 6),
+(3, 8, 13),
+(4, 8, 16),
+(5, 3, 7),
+(6, 3, 8),
+(7, 5, 9),
+(8, 3, 1),
+(9, 5, 2),
+(10, 8, 12),
+(11, 8, 13),
+(12, 3, 3),
+(13, 1, 4),
+(14, 7, 15),
+(15, 10, 11);
 
 -- --------------------------------------------------------
 
@@ -149,7 +158,12 @@ INSERT INTO `horaire` (`id`, `date`, `heure`, `duree`, `module`) VALUES
 (9, '2022-02-05', '10:30:00', '01:30:00', 9),
 (10, '2022-02-07', '09:00:00', '01:30:00', 10),
 (11, '2022-02-02', '10:30:00', '01:30:00', 11),
-(12, '2022-02-07', '15:00:00', '01:30:00', 12);
+(12, '2022-02-07', '15:00:00', '01:30:00', 12),
+(13, '2022-02-07', '15:00:00', '01:30:00', 14),
+(14, '2022-02-07', '15:00:00', '01:30:00', 16),
+(15, '2022-02-07', '15:00:00', '01:30:00', 17),
+(16, '2022-02-07', '15:00:00', '01:30:00', 13),
+(17, '2022-02-07', '15:00:00', '01:30:00', 15);
 
 -- --------------------------------------------------------
 
@@ -174,7 +188,7 @@ INSERT INTO `locale` (`id`, `nom`, `capacite`, `nbr_surveillant`, `respo`) VALUE
 (2, 'AMPHI C', 85, 3, 2),
 (3, 'BL2.3', 50, 2, 3),
 (4, 'BL2.5', 20, 2, 4),
-(5, 'BL2.6', 50, 2, 5),
+(5, 'BL2.6', 50, 2, 1),
 (6, 'BL3.3', 20, 2, 6),
 (7, 'BL3.4', 20, 2, 7),
 (8, 'BL3.5', 20, 2, 8),
@@ -220,26 +234,88 @@ INSERT INTO `locale` (`id`, `nom`, `capacite`, `nbr_surveillant`, `respo`) VALUE
 CREATE TABLE `location` (
   `id` int(11) NOT NULL,
   `locale` int(11) DEFAULT NULL,
-  `horaire` int(11) DEFAULT NULL
+  `horaire` int(11) DEFAULT NULL,
+  `surr` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `location`
 --
 
-INSERT INTO `location` (`id`, `locale`, `horaire`) VALUES
-(434, 1, 1),
-(435, 2, 1),
-(436, 3, 1),
-(437, 12, 1),
-(438, 2, 2),
-(439, 16, 2),
-(440, 25, 2),
-(441, 38, 2),
-(442, 3, 5),
-(443, 15, 6),
-(444, 33, 8),
-(445, 43, 10);
+INSERT INTO `location` (`id`, `locale`, `horaire`, `surr`) VALUES
+(457, 43, 10, 1),
+(717, 1, 4, 1),
+(718, 3, 4, 1),
+(719, 4, 4, 1),
+(720, 5, 4, 1),
+(721, 16, 4, 1),
+(722, 17, 4, 1),
+(723, 18, 4, 1),
+(724, 19, 4, 1),
+(725, 20, 4, 1),
+(726, 21, 4, 1),
+(727, 22, 4, 1),
+(728, 23, 4, 1),
+(729, 24, 4, 1),
+(730, 25, 4, 1),
+(731, 35, 4, 1),
+(732, 36, 4, 1),
+(733, 37, 4, 1),
+(734, 38, 4, 1),
+(735, 33, 5, 1),
+(736, 34, 5, 1),
+(737, 33, 6, 1),
+(738, 34, 6, 1),
+(739, 3, 7, 1),
+(740, 5, 7, 1),
+(741, 3, 8, 1),
+(742, 5, 8, 1),
+(743, 33, 8, 1),
+(744, 33, 9, 1),
+(745, 34, 9, 1),
+(753, 2, 14, 1),
+(754, 12, 14, 1),
+(755, 13, 14, 1),
+(756, 14, 14, 1),
+(757, 15, 14, 1),
+(758, 16, 14, 1),
+(759, 17, 14, 1),
+(760, 18, 14, 1),
+(761, 19, 14, 1),
+(762, 20, 14, 1),
+(763, 2, 16, 1),
+(764, 11, 16, 1),
+(765, 12, 16, 1),
+(766, 13, 16, 1),
+(767, 14, 16, 1),
+(768, 15, 16, 1),
+(769, 16, 16, 1),
+(770, 2, 17, 1),
+(771, 39, 17, 1),
+(772, 40, 17, 1),
+(773, 41, 17, 1),
+(774, 42, 17, 1),
+(784, 3, 1, 6),
+(785, 3, 1, 7),
+(786, 4, 1, 4),
+(787, 4, 1, 5),
+(788, 5, 1, 1),
+(789, 5, 1, 2),
+(790, 33, 2, 13),
+(791, 33, 2, 16),
+(792, 34, 2, 15),
+(793, 34, 2, 17),
+(794, 2, 12, 2),
+(795, 12, 12, 4),
+(796, 13, 12, 18),
+(797, 14, 12, 10),
+(798, 15, 12, 11),
+(799, 16, 12, 12),
+(800, 17, 12, 13),
+(801, 18, 12, 16),
+(802, 19, 12, 17),
+(803, 3, 3, 5),
+(804, 5, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -260,16 +336,16 @@ CREATE TABLE `module` (
 --
 
 INSERT INTO `module` (`id`, `nom`, `nbrinscrits`, `semestre`, `respo`) VALUES
-(1, 'ALGORITHMIQUE II', 110, 1, 39),
-(2, 'BASES DE DONNEES', 66, 2, 42),
+(1, 'ALGORITHMIQUE II', 110, 1, 1),
+(2, 'BASES DE DONNEES', 66, 2, 2),
 (3, 'SYSTEME D\'EXPLOI', 97, 3, 3),
-(4, 'INFORMATIQUE 1', 632, 4, 36),
+(4, 'INFORMATIQUE 1', 632, 4, 4),
 (5, 'CONCEPTION ORIEN', 62, 5, 5),
 (6, 'PROGRAMMATION OR', 63, 6, 6),
-(7, 'PROGRAMMATION 1', 83, 1, 36),
+(7, 'PROGRAMMATION 1', 83, 1, 7),
 (8, 'TECHNOLOGIE DU W', 90, 2, 8),
 (9, 'COMPILATION', 62, 3, 9),
-(10, 'RESEAUX', 67, 4, 41),
+(10, 'RESEAUX', 67, 4, 10),
 (11, 'LANGUE ET TERMIN', 938, 5, 11),
 (12, 'ANALYSE5', 243, 6, 12),
 (13, 'ALGEBRE4', 257, 1, 13),
@@ -315,19 +391,7 @@ INSERT INTO `professeur` (`id`, `nom`, `prenom`, `admin`, `email`, `password`) V
 (15, 'OUBELKACEM', 'ALI', 1, 'admin', 'admin'),
 (16, 'SABBANE', 'MOHAMED', 0, 'user', 'user'),
 (17, 'ZAIM', 'AHMED', 0, 'user', 'user'),
-(18, 'NEMMAR HOUDA ', 'HOUDA', 0, 'user', 'user'),
-(32, 'a', 'a', 0, NULL, NULL),
-(33, 'aa', 'bb', 0, NULL, NULL),
-(34, 'a', 'b', 0, NULL, NULL),
-(35, 'aa', 'aa', 0, NULL, NULL),
-(36, 'abdelilah', 'dh', 0, NULL, NULL),
-(37, 'a', 'a', 0, NULL, NULL),
-(38, 'b', 'b', 0, NULL, NULL),
-(39, 'd', 'd', 0, NULL, NULL),
-(40, 'b', 'b', 0, NULL, NULL),
-(41, 'ff', 'ff', 0, NULL, NULL),
-(42, 'hh', 'hh', 0, NULL, NULL),
-(43, 'gg', 'gg', 0, NULL, NULL);
+(18, 'NEMMAR HOUDA ', 'HOUDA', 0, 'user', 'user');
 
 -- --------------------------------------------------------
 
@@ -338,20 +402,33 @@ INSERT INTO `professeur` (`id`, `nom`, `prenom`, `admin`, `email`, `password`) V
 CREATE TABLE `semestre` (
   `id` int(11) NOT NULL,
   `nom` varchar(8) NOT NULL,
-  `annee` int(11) DEFAULT NULL
+  `annee` int(11) DEFAULT NULL,
+  `session` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `semestre`
 --
 
-INSERT INTO `semestre` (`id`, `nom`, `annee`) VALUES
-(1, 'S1', 1),
-(2, 'S2', 1),
-(3, 'S3', 1),
-(4, 'S4', 1),
-(5, 'S5', 1),
-(6, 'S6', 1);
+INSERT INTO `semestre` (`id`, `nom`, `annee`, `session`) VALUES
+(1, 'S1', 1, 1),
+(2, 'S2', 1, 3),
+(3, 'S3', 1, 1),
+(4, 'S4', 1, 3),
+(5, 'S5', 1, 1),
+(6, 'S6', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sem_session`
+--
+
+CREATE TABLE `sem_session` (
+  `id` int(11) NOT NULL,
+  `semestre_id` int(11) DEFAULT NULL,
+  `session_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -362,19 +439,18 @@ INSERT INTO `semestre` (`id`, `nom`, `annee`) VALUES
 CREATE TABLE `session` (
   `id` int(11) NOT NULL,
   `nom` varchar(10) NOT NULL,
-  `type` varchar(10) NOT NULL,
-  `semestre` int(11) DEFAULT NULL
+  `type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `session`
 --
 
-INSERT INTO `session` (`id`, `nom`, `type`, `semestre`) VALUES
-(1, 'automne', 'ordinaire', 1),
-(2, 'automne', 'rattrapage', 2),
-(3, 'printemps', 'ordinaire', 3),
-(4, 'printemps', 'rattrapage', 4);
+INSERT INTO `session` (`id`, `nom`, `type`) VALUES
+(1, 'automne', 'ordinaire'),
+(2, 'automne', 'rattrapage'),
+(3, 'printemps', 'ordinaire'),
+(4, 'printemps', 'rattrapage');
 
 --
 -- Indexes for dumped tables
@@ -429,7 +505,8 @@ ALTER TABLE `locale`
 ALTER TABLE `location`
   ADD PRIMARY KEY (`id`),
   ADD KEY `location_horaire_id_fk` (`horaire`),
-  ADD KEY `location_locale_id_fk` (`locale`);
+  ADD KEY `location_locale_id_fk` (`locale`),
+  ADD KEY `location_professeur_id_fk` (`surr`);
 
 --
 -- Indexes for table `module`
@@ -450,14 +527,20 @@ ALTER TABLE `professeur`
 --
 ALTER TABLE `semestre`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `semestre_annee_id_fk` (`annee`);
+  ADD KEY `semestre_annee_id_fk` (`annee`),
+  ADD KEY `semestre_session_id_fk` (`session`);
+
+--
+-- Indexes for table `sem_session`
+--
+ALTER TABLE `sem_session`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `session`
 --
 ALTER TABLE `session`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `session_semestre_id_fk` (`semestre`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -473,7 +556,7 @@ ALTER TABLE `annee`
 -- AUTO_INCREMENT for table `filiere`
 --
 ALTER TABLE `filiere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `filiere_annee`
@@ -485,13 +568,13 @@ ALTER TABLE `filiere_annee`
 -- AUTO_INCREMENT for table `filiere_module`
 --
 ALTER TABLE `filiere_module`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `horaire`
 --
 ALTER TABLE `horaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `locale`
@@ -503,7 +586,7 @@ ALTER TABLE `locale`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=446;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=805;
 
 --
 -- AUTO_INCREMENT for table `module`
@@ -522,6 +605,12 @@ ALTER TABLE `professeur`
 --
 ALTER TABLE `semestre`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `sem_session`
+--
+ALTER TABLE `sem_session`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `session`
@@ -570,7 +659,8 @@ ALTER TABLE `locale`
 --
 ALTER TABLE `location`
   ADD CONSTRAINT `location_horaire_id_fk` FOREIGN KEY (`horaire`) REFERENCES `horaire` (`id`),
-  ADD CONSTRAINT `location_locale_id_fk` FOREIGN KEY (`locale`) REFERENCES `locale` (`id`);
+  ADD CONSTRAINT `location_locale_id_fk` FOREIGN KEY (`locale`) REFERENCES `locale` (`id`),
+  ADD CONSTRAINT `location_professeur_id_fk` FOREIGN KEY (`surr`) REFERENCES `professeur` (`id`);
 
 --
 -- Constraints for table `module`
@@ -583,13 +673,8 @@ ALTER TABLE `module`
 -- Constraints for table `semestre`
 --
 ALTER TABLE `semestre`
-  ADD CONSTRAINT `semestre_annee_id_fk` FOREIGN KEY (`annee`) REFERENCES `annee` (`id`);
-
---
--- Constraints for table `session`
---
-ALTER TABLE `session`
-  ADD CONSTRAINT `session_semestre_id_fk` FOREIGN KEY (`semestre`) REFERENCES `semestre` (`id`);
+  ADD CONSTRAINT `semestre_annee_id_fk` FOREIGN KEY (`annee`) REFERENCES `annee` (`id`),
+  ADD CONSTRAINT `semestre_session_id_fk` FOREIGN KEY (`session`) REFERENCES `session` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

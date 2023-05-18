@@ -157,7 +157,7 @@ public class GestionServlet extends HttpServlet {
                 "LEFT JOIN filiere f ON professeur.id = f.respo\n" +
                 "LEFT JOIN locale l ON professeur.id = l.respo\n" +
                 "INNER JOIN semestre s ON m.semestre = s.id\n" +
-                "INNER JOIN session s2 ON s.id = s2.semestre;\n";
+                "INNER JOIN session s2 ON s.session = s2.id;\n";
 
         try {
             Connection connection = DatabaseConnection.getConnection();

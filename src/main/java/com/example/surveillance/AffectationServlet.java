@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Enumeration;
+import java.util.stream.Collectors;
+
 
 @WebServlet(name = "affectationServlet", value = "/affectation")
 public class AffectationServlet extends HttpServlet {
@@ -28,7 +31,6 @@ public class AffectationServlet extends HttpServlet {
 
         request.setAttribute("affectations", affectations);
         request.setAttribute("locals", locals);
-        request.setAttribute("horaireLocals", ConsultationServlet.fetchHoraireLocal());
         request.setAttribute("professeurs", professeurs);
 
 
@@ -39,26 +41,23 @@ public class AffectationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer horaireId = Integer.parseInt(request.getParameter("horaireId"));
+        Enumeration<String> parameterNames = request.getParameterNames();
 
-        var horaires = fetchHoraire();
-        // Assuming you have a list of students called 'students'
-        for (Horaire horaire : horaires) {
-            String horaireId = request.getParameter("horaireId_" + horaire.getId());
-            String[] selectedLocals = request.getParameterValues("locals_" + horaire.getId());
-
-            // Process the selected checkboxes for the current student
-            if (selectedLocals != null && horaireId != null) {
-                deleteAllLocationsOfHoraire(Integer.parseInt(horaireId));
-                for (String localId : selectedLocals) {
-                    boolean success = insertLocation(Integer.parseInt(horaireId), Integer.parseInt(localId));
-                }
+        deleteAllLocationsOfHoraire(horaireId);
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            if (paramName.startsWith("cart_")) {
+                String[] value = request.getParameterValues(paramName)[0].split("_");
+                String localId = value[0];
+                String surr = value[1];
+                boolean success = insertLocation(horaireId, Integer.parseInt(localId), Integer.parseInt(surr));
             }
         }
 
-        response.sendRedirect("affectation-final");
+        response.sendRedirect("affectation");
         //response.sendRedirect(request.getRequestURI());
     }
-
 
     //region fetchAll
     private List<Affectation> fetchAll() {
@@ -69,7 +68,7 @@ public class AffectationServlet extends HttpServlet {
                 "         left join filiere_annee fa on filiere.id = fa.id_filiere" +
                 "         left join annee a on fa.id_annee = a.id\n" +
                 "         left join semestre s on a.id = s.annee" +
-                "         left join session s2 on s.id = s2.semestre" +
+                "         left join session s2 on s.session = s2.id" +
                 "         left join filiere_module fm on filiere.id = fm.filiere" +
                 "         left join module m on fm.module = m.id" +
                 "         left join horaire h on m.id = h.module";
@@ -113,7 +112,7 @@ public class AffectationServlet extends HttpServlet {
                 int capacite = resultSet.getInt("capacite");
                 int respo = resultSet.getInt("respo");
 
-                Local local = new Local(id, nom, capacite,respo);
+                Local local = new Local(id, nom, capacite, respo);
                 locals.add(local);
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -122,6 +121,8 @@ public class AffectationServlet extends HttpServlet {
 
         return locals;
     }
+
+
 
     private List<Horaire> fetchHoraire() {
         List<Horaire> horaires = new ArrayList<>();
@@ -166,14 +167,15 @@ public class AffectationServlet extends HttpServlet {
         return false;
     }
 
-    private boolean insertLocation(Integer horaireId, Integer localId) {
-        String query = "INSERT location(locale, horaire)  VALUES(?,?)";
+    private boolean insertLocation(Integer horaireId, Integer localId, Integer surr) {
+        String query = "INSERT location(locale, horaire,surr)  VALUES(?,?,?)";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, localId);
             preparedStatement.setInt(2, horaireId);
+            preparedStatement.setInt(3, surr);
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;

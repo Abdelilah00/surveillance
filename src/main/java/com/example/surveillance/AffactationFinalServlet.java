@@ -101,7 +101,7 @@ public class AffactationFinalServlet extends HttpServlet {
                 "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
                 "         inner join annee a on fa.id_annee = a.id" +
                 "         inner join semestre s on a.id = s.annee" +
-                "         inner join session s2 on s.id = s2.semestre" +
+                "         inner join session s2 on s.session = s2.id" +
                 "         inner join filiere_module fm on filiere.id = fm.filiere" +
                 "         inner join module m on fm.module = m.id and s.id = m.semestre" +
                 "         inner join horaire h on m.id = h.module";
@@ -110,7 +110,7 @@ public class AffactationFinalServlet extends HttpServlet {
                 "from horaire " +
                 "inner join location l on horaire.id = l.horaire " +
                 "inner join locale l2 on l.locale = l2.id " +
-                "inner join professeur p on l2.respo = p.id";
+                "inner join professeur p on l.surr = p.id";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
