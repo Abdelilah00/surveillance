@@ -1,6 +1,7 @@
 package com.example.surveillance;
 
 import com.example.surveillance.Dto.*;
+import com.example.surveillance.Dto.Module;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -132,12 +133,13 @@ public class AffactationFinalServlet extends HttpServlet {
         }
 
 
-
         try {
             Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            var locals = AffectationServlet.fetchLocals();
+            final List<Module> modules = GestionServlet.fetchModules();
 
             while (resultSet.next()) {
                 Integer horaireId = resultSet.getInt("id");
@@ -149,15 +151,33 @@ public class AffactationFinalServlet extends HttpServlet {
                 Integer anneeId = resultSet.getInt("anneeId");
                 Integer sessionId = resultSet.getInt("sessionId");
 
-
-                var locals = AffectationServlet.fetchLocals();
-                var modules = GestionServlet.fetchModules();
-
                 List<String> localProfsString = localProfs.stream()
                         .filter(item -> item.getHoraireId().equals(horaireId))
                         .map(item -> {
-                            var lc = locals.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()) && item.localName.equals(x.getNom()));
-                            var md = modules.stream().anyMatch(x -> x.getRespoName().equals(item.getRespoName()) && module.equals(x.getNom()));
+                            var lc = false;
+                            var md = false;
+
+                            for (Module x : modules) {
+                                try {
+                                    if (x.getRespoName().equals(item.getRespoName()) && module.equals(x.getNom())) {
+                                        md = true;
+                                        break;
+                                    }
+                                } catch (Exception exception) {
+                                }
+                            }
+
+                            for (Local x : locals) {
+                                try {
+                                    if (x.getRespoName().equals(item.getRespoName()) && item.localName.equals(x.getNom())) {
+                                        lc = true;
+                                        break;
+                                    }
+                                } catch (Exception exception) {
+
+                                }
+                            }
+
                             var str = item.getLocalName() + " - ";
 
                             if (lc) str = str + "(";
