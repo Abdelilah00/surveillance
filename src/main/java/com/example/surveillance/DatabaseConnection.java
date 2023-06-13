@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String DB_URL = "jdbc:mysql://localhost:3308/affectation_surveillance";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/affectation_surveillance";
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "";
 
