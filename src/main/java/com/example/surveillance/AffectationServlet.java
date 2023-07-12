@@ -59,19 +59,19 @@ public class AffectationServlet extends HttpServlet {
         //response.sendRedirect(request.getRequestURI());
     }
 
-    //region fetchAll
+    //region fetchAll 18 4
     private List<Affectation> fetchAll() {
         List<Affectation> affectations = new ArrayList<>();
 
         String query = "SELECT DISTINCT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree " +
                 "from filiere" +
-                "         left join filiere_annee fa on filiere.id = fa.id_filiere" +
-                "         left join annee a on fa.id_annee = a.id\n" +
-                "         left join semestre s on a.id = s.annee" +
-                "         left join session s2 on s.session = s2.id" +
-                "         left join filiere_module fm on filiere.id = fm.filiere" +
-                "         left join module m on fm.module = m.id" +
-                "         left join horaire h on m.id = h.module";
+                "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
+                "         inner join annee a on fa.id_annee = a.id\n" +
+                "         inner join semestre s on a.id = s.annee" +
+                "         inner join session s2 on s.session = s2.id" +
+                "         inner join filiere_module fm on filiere.id = fm.filiere" +
+                "         inner join module m on fm.module = m.id" +
+                "         inner join horaire h on m.id = h.module";
 
         try {
             Connection connection = DatabaseConnection.getConnection();

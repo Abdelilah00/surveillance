@@ -183,7 +183,7 @@
                         var checkedCheckboxes = document.querySelectorAll("tbody td:nth-child(" + (column + 1) + ") input:checked");
                         if (checkedCheckboxes.length > 5) {
                             checkbox.checked = false;
-                            alert("You can select a maximum of 5 checkboxes in each column.");
+                            alert("You can select a maximum of 5 locals for each professor.");
                         }
                     }
                 </script>

@@ -134,6 +134,14 @@
             <% } %>
         </tr>
 
+        <tr>
+            <td class="table-info">Nom et Prenom</td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+            </td>
+            <% } %>
+        </tr>
+
         <% List<Professeur> profs = (List<Professeur>) request.getAttribute("profs"); %>
         <% for (Professeur prof : profs) { %>
         <tr>
