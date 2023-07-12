@@ -1,8 +1,8 @@
 package com.example.surveillance.Dto;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Consultation {
     Integer horaireId;
@@ -17,7 +17,7 @@ public class Consultation {
     Integer sessionId;
 
 
-    public Consultation(Integer horaireId, String module, String filiere, String date, String heure, String duree, List<String> locals, Integer nbs, Integer anneeId, Integer sessionId ) {
+    public Consultation(Integer horaireId, String module, String filiere, String date, String heure, String duree, List<String> locals, Integer nbs, Integer anneeId, Integer sessionId) {
         this.horaireId = horaireId;
         this.module = module;
         this.filiere = filiere;
@@ -62,12 +62,21 @@ public class Consultation {
     public String getDuree() {
         return duree;
     }
+
     public List<String> getLocals() {
         return locals;
     }
 
     public String getFormattedLocals() {
         return String.join(" / ", locals);
+    }
+
+    public String getLocalOf(String profName) {
+        return locals.stream().filter(item -> {
+            var splitted = item.split(" - ")[0];
+            boolean x = splitted.contains(profName);
+            return x;
+        }).map(item -> item.split(" - ")[1]).findFirst().orElse("");
     }
 
     public Integer getNbs() {

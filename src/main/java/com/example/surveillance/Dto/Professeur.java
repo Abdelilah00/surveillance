@@ -34,4 +34,8 @@ public class Professeur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
+    public String getNomComplet() {
+        return getNom() + " " + getPrenom();
+    }
 }

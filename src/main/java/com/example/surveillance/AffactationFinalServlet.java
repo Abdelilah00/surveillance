@@ -35,6 +35,7 @@ public class AffactationFinalServlet extends HttpServlet {
         request.setAttribute("consultations", consultations);
         request.setAttribute("sessions", sessions);
         request.setAttribute("annees", annees);
+        request.setAttribute("profs", GestionServlet.fetchProfesseurs());
 
         request.setAttribute("tableHeader", a.getValue() + " / " + s.getNom() + " / " + s.getType());
 
@@ -105,7 +106,7 @@ public class AffactationFinalServlet extends HttpServlet {
                 "         left join semestre s on a.id = s.annee" +
                 "         left join session s2 on s.session = s2.id" +
                 "         left join filiere_module fm on filiere.id = fm.filiere" +
-                "         left join module m on fm.module = m.id and s.id = m.semestre" +
+                "         left join module m on fm.module = m.id" +
                 "         left join horaire h on m.id = h.module";
 
         String query2 = "select horaire.id as horaireId, p.nom as respoName, l2.nom as localName " +
@@ -178,10 +179,10 @@ public class AffactationFinalServlet extends HttpServlet {
                                 }
                             }
 
-                            var str = item.getLocalName() + " - ";
+                            var str = item.getRespoName() + " - ";
 
                             if (lc) str = str + "(";
-                            str = str + item.getRespoName();
+                            str = str + item.getLocalName();
                             if (lc) str = str + ")";
 
                             if (md) str = str + "*";

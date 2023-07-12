@@ -14,7 +14,8 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;1,700&display=swap"
+          rel="stylesheet">
 
     <style>
         th {
@@ -23,6 +24,9 @@
 
         .container {
             margin-top: 10px;
+        }
+        .container-fluid{
+            padding: 20px;
         }
         .btn-primary {
             background-color: #00718D;
@@ -33,8 +37,8 @@
 <header>
     <jsp:include page="navbar.jsp"/>
 </header>
-<section class="container">
-    <div class="row d-flex justify-content-between">
+<section class="container-fluid">
+    <div class="row d-flex justify-content-between" style="padding: 0 50px">
         <div>
             <div>
                 <button class="btn btn-primary" id="printButton"><i class="fa-solid fa-print"></i> Imprimer</button>
@@ -79,50 +83,74 @@
         </form>
     </div>
 
-    <table class="table table-bordered table-striped" style="margin-top: 70px">
+    <table class="table table-bordered table-striped" style="margin-top: 50px; font-size: 14px; display: block; overflow: auto">
         <thead>
+        <% List<Consultation> affectations = (List<Consultation>) request.getAttribute("consultations"); %>
         <tr class="table-info">
-            <th colspan="6" id="tableHeader">
+            <th colspan="<%= affectations.size() +1%>" id="tableHeader">
                 <%= request.getAttribute("tableHeader") %>
             </th>
         </tr>
-        <tr class="table-info">
-            <th>Filiere</th>
-            <th>Epreuve</th>
-            <th>Date</th>
-            <th>Heure</th>
-            <th>Duree</th>
-            <th style="width: 60%">Locaux</th>
-        </tr>
         </thead>
         <tbody>
-        <%
-            List<Consultation> affectations = (List<Consultation>) request.getAttribute("consultations");
-            if (affectations != null && !affectations.isEmpty()) {
-                for (Consultation affectation : affectations) { %>
         <tr>
-            <td><%= affectation.getFiliere() %>
+            <td  class="table-info">Filiere</td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+                <%= affectation.getFiliere() %>
             </td>
-            <td><%= affectation.getModule() %>
-            </td>
-            <td><%= affectation.getDate() %>
-            </td>
-            <td><%= affectation.getHeure() %>
-            </td>
-            <td><%= affectation.getDuree() %>
-            </td>
-            <td><%= affectation.getFormattedLocals() %>
-            </td>
+            <% } %>
         </tr>
-        <% }
-        } else { %>
         <tr>
-            <td colspan="6" class="text-center">No data available</td>
+            <td  class="table-info">Epreuve</td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+                <%= affectation.getModule() %>
+            </td>
+            <% } %>
+        </tr>
+        <tr>
+            <td class="table-info">Date</td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+                <%= affectation.getDate() %>
+            </td>
+            <% } %>
+        </tr>
+        <tr>
+            <td class="table-info">Heure</td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+                <%= affectation.getHeure() %>
+            </td>
+            <% } %>
+        </tr>
+        <tr>
+            <td class="table-info">Duree</td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+                <%= affectation.getDuree() %>
+            </td>
+            <% } %>
+        </tr>
+
+        <% List<Professeur> profs = (List<Professeur>) request.getAttribute("profs"); %>
+        <% for (Professeur prof : profs) { %>
+        <tr>
+            <td class="table-info">
+                <%=prof.getNomComplet() %>
+            </td>
+            <% for (Consultation affectation : affectations) { %>
+            <td>
+                <%= affectation.getLocalOf(prof.getNom()) %>
+            </td>
+            <% } %>
         </tr>
         <% } %>
         </tbody>
     </table>
 </section>
+
 <script>
     document.getElementById("printButton").addEventListener("click", function () {
         // Get the table HTML

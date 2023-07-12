@@ -151,8 +151,7 @@
                         <% if (professeurs != null && !professeurs.isEmpty()) {
                             for (Professeur professeur : professeurs) {
                         %>
-                        <th><%= professeur.getNom() %>
-                        </th> <!-- Replace with your actual method -->
+                        <th><%= professeur.getNom() %></th> <!-- Replace with your actual method -->
                         <% }
                         } %>
                     </tr>
@@ -162,14 +161,14 @@
                         for (Local local : locals) {
                     %>
                     <tr>
-                        <th><%= local.getNom() %>
-                        </th> <!-- Replace with your actual method -->
+                        <th><%= local.getNom() %></th> <!-- Replace with your actual method -->
                         <% if (professeurs != null && !professeurs.isEmpty()) {
                             for (Professeur professeur : professeurs) {
                         %>
                         <td>
                             <input type="checkbox" name="cart_<%= local.getId() %>_<%= professeur.getId() %>"
-                                   value="<%= local.getId() %>_<%= professeur.getId() %>"/>
+                                   value="<%= local.getId() %>_<%= professeur.getId() %>"
+                                   onclick="checkCheckboxCount(this);"/>
                         </td>
                         <% }
                         } %>
@@ -178,6 +177,18 @@
                     } %>
                     </tbody>
                 </table>
+                <script>
+                    function checkCheckboxCount(checkbox) {
+                        var column = checkbox.parentNode.cellIndex;
+                        var checkedCheckboxes = document.querySelectorAll("tbody td:nth-child(" + (column + 1) + ") input:checked");
+                        if (checkedCheckboxes.length > 5) {
+                            checkbox.checked = false;
+                            alert("You can select a maximum of 5 checkboxes in each column.");
+                        }
+                    }
+                </script>
+
+
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button id="closeBtn" class="btn btn-info">Close</button>
             </form>
