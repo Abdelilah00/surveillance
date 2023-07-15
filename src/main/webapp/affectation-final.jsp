@@ -34,7 +34,7 @@
         table {
             margin-top: 50px;
             font-size: 14px;
-            display: block;
+            width: 100%;
             overflow: auto;
             background-color: #f9f9f9;
             border-radius: 4px;
