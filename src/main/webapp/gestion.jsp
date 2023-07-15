@@ -407,7 +407,6 @@
                     <th>numero</th>
                     <th>Nom et prenom</th>
                     <th>Module</th>
-                    <th>filiére</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -419,10 +418,6 @@
                     <td><%= profAndModule.getNomAndPrenom() %>
                     </td>
                     <td><%= profAndModule.getModule() %>
-                    </td>
-                    <td><% if (profAndModule.getFiliere() != null) { %>
-                        <%= profAndModule.getFiliere() %>
-                        <% } else { %>&nbsp;<% } %>
                     </td>
                     <td>
                         <button class="btn btn-danger" onclick="deleteModule('<%= profAndModule.getModule() %>')">
