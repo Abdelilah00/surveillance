@@ -1,13 +1,8 @@
 <%@ page import="com.example.surveillance.Dto.Consultation" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.surveillance.Dto.Tmp" %>
-<%@ page import="com.example.surveillance.Dto.Session" %><%--
-  Created by IntelliJ IDEA.
-  User: AbdelilahDehaoui
-  Date: 04/05/2023
-  Time: 14:52
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.example.surveillance.Dto.Session" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -44,37 +39,6 @@
             <button class="btn btn-primary" onclick="window.location='affectation'"><i class="fa-solid fa-link"></i>Affecter</button>
         </div>
 
-        <form method="POST" action="consultation">
-            <select name="annee" id="annee">
-                <%
-                    List<Tmp> annees = (List<Tmp>) request.getAttribute("annees");
-                    if (annees != null && !annees.isEmpty()) {
-                        for (Tmp annee : annees) { %>
-                <option <% if (request.getAttribute("anneeSelected") != null && request.getAttribute("anneeSelected").equals(annee.getKey())) { %>
-                        selected <% } %> value="<%=annee.getKey()%>"><%=annee.getValue()%>
-                </option>
-                <% }
-                } else { %>
-                <option value="" disabled selected>No modules available</option>
-                <% } %>
-            </select>
-
-            <select name="session" id="session">
-                <%
-                    List<Session> sessions = (List<Session>) request.getAttribute("sessions");
-                    if (sessions != null && !sessions.isEmpty()) {
-                        for (Session session1 : sessions) { %>
-                <option <% if (request.getAttribute("sessionSelected") != null && request.getAttribute("sessionSelected").equals(session1.getId())) { %>
-                        selected <% } %> value="<%=session1.getId()%>"><%=session1.getNom()%> / <%=session1.getType()%>
-                </option>
-                <% }
-                } else { %>
-                <option value="" disabled selected>No modules available</option>
-                <% } %>
-            </select>
-
-            <button class="btn btn-primary" id="btnSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
     </div>
     <table class="table table-bordered table-striped" style="margin-top: 70px">
         <thead>

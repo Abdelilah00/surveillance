@@ -31,7 +31,8 @@ public class ConsultationServlet extends HttpServlet {
         Session session = sessions.get(0);
         Tmp annee = annees.get(0);
 
-        List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(session.getId()) && item.getAnneeId().equals(annee.getKey())).collect(Collectors.toList());
+        //List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(session.getId()) && item.getAnneeId().equals(annee.getKey())).collect(Collectors.toList());
+        List<Consultation> consultations = fetchAll();
 
 
         request.setAttribute("consultations", consultations);
@@ -50,7 +51,8 @@ public class ConsultationServlet extends HttpServlet {
         Integer anneeId = Integer.parseInt(request.getParameter("annee"));
         Integer sessionId = Integer.parseInt(request.getParameter("session"));
 
-        List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(sessionId) && item.getAnneeId().equals(anneeId)).collect(Collectors.toList());
+        //List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(sessionId) && item.getAnneeId().equals(anneeId)).collect(Collectors.toList());
+        List<Consultation> consultations = fetchAll();
         List<Session> sessions = fetchSessions();
         List<Tmp> annees = fetchAnnees();
 
@@ -77,17 +79,15 @@ public class ConsultationServlet extends HttpServlet {
         List<Consultation> consultations = new ArrayList<>();
         List<Tmp> locals = fetchHoraireLocal();
 
-        String query = "SELECT DISTINCT h.id as horaireId, filiere.nom as filiere, m.nom as module, date, heure, duree , a.id as anneeId, s2.id as sessionId,l2.nbr_surveillant as nbs " +
+        String query = "SELECT DISTINCT h.id as horaireId, filiere.nom as filiere, m.nom as module, date, heure, duree , a.id as anneeId, COUNT(DISTINCT l.surr) as nbs " +
                 "from filiere" +
                 "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
                 "         inner join annee a on fa.id_annee = a.id " +
-                "         inner join semestre s on a.id = s.annee" +
-                "         inner join session s2 on s.session = s2.id" +
                 "         inner join filiere_module fm on filiere.id = fm.filiere" +
-                "         inner join module m on fm.module = m.id and s.id = m.semestre" +
+                "         inner join module m on fm.module = m.id" +
                 "         inner join horaire h on m.id = h.module " +
                 "         inner join location l on h.id = l.horaire " +
-                "         inner join locale l2 on l.locale = l2.id";
+                "         inner join locale l2 on l.locale = l2.id group by h.id , filiere.nom , m.nom , date, heure, duree , a.id";
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -102,7 +102,7 @@ public class ConsultationServlet extends HttpServlet {
                 String heure = resultSet.getString("heure");
                 String duree = resultSet.getString("duree");
                 Integer anneeId = resultSet.getInt("anneeId");
-                Integer sessionId = resultSet.getInt("sessionId");
+                Integer sessionId = 0;
                 Integer nbs = resultSet.getInt("nbs");
 
                 List<String> localsByHoraire = locals.stream().filter(item -> Objects.equals(item.getKey(), horaireId)).map(Tmp::getValue).collect(Collectors.toList());

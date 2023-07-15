@@ -3,6 +3,7 @@ package com.example.surveillance.Dto;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Consultation {
     Integer horaireId;
@@ -68,9 +69,9 @@ public class Consultation {
     }
 
     public String getFormattedLocals() {
-        return String.join(" / ", locals);
+        var x = locals.stream().distinct().collect(Collectors.toList());
+        return String.join(" / ", x);
     }
-
     public String getLocalOf(String profName) {
         return locals.stream().filter(item -> {
             var splitted = item.split(" - ")[0];

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: AbdelilahDehaoui
-  Date: 04/05/2023
-  Time: 14:53
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.surveillance.Dto.*" %>
 <%@ page import="com.example.surveillance.AffectationServlet" %>
@@ -151,7 +144,8 @@
                         <% if (professeurs != null && !professeurs.isEmpty()) {
                             for (Professeur professeur : professeurs) {
                         %>
-                        <th><%= professeur.getNom() %></th> <!-- Replace with your actual method -->
+                        <th><%= professeur.getNom() %>
+                        </th> <!-- Replace with your actual method -->
                         <% }
                         } %>
                     </tr>
@@ -161,14 +155,15 @@
                         for (Local local : locals) {
                     %>
                     <tr>
-                        <th><%= local.getNom() %></th> <!-- Replace with your actual method -->
+                        <th><%= local.getNom() %>
+                        </th> <!-- Replace with your actual method -->
                         <% if (professeurs != null && !professeurs.isEmpty()) {
                             for (Professeur professeur : professeurs) {
                         %>
                         <td>
                             <input type="checkbox" name="cart_<%= local.getId() %>_<%= professeur.getId() %>"
                                    value="<%= local.getId() %>_<%= professeur.getId() %>"
-                                   onclick="checkCheckboxCount(this);"/>
+                                   onclick="checkCheckboxCount(this,<%= professeur.getAffectationCountLeft() %> );"/>
                         </td>
                         <% }
                         } %>
@@ -178,10 +173,10 @@
                     </tbody>
                 </table>
                 <script>
-                    function checkCheckboxCount(checkbox) {
+                    function checkCheckboxCount(checkbox, max) {
                         var column = checkbox.parentNode.cellIndex;
                         var checkedCheckboxes = document.querySelectorAll("tbody td:nth-child(" + (column + 1) + ") input:checked");
-                        if (checkedCheckboxes.length > 5) {
+                        if (checkedCheckboxes.length > max) {
                             checkbox.checked = false;
                             alert("You can select a maximum of 5 locals for each professor.");
                         }

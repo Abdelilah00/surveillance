@@ -29,7 +29,9 @@ public class AuthServlet extends HttpServlet {
                 response.sendRedirect("home.jsp");
             } else {
                 // Login failed, redirect to an error page or set an error message
-                request.setAttribute("errorMessage", "Invalid email or password.");
+                request.setAttribute("errorMessage", "Invalid email or password .");
+
+
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("auth.jsp");
                 requestDispatcher.forward(request, response);
             }

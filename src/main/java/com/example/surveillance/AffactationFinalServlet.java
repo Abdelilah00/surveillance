@@ -29,8 +29,8 @@ public class AffactationFinalServlet extends HttpServlet {
         var s = sessions.get(0);
         var a = annees.get(0);
 
-        List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(s.getId()) && item.getAnneeId().equals(a.getKey())).collect(Collectors.toList());
-
+        //List<Consultation> consultations = fetchAll().stream().filter(item -> item.getSessionId().equals(s.getId()) && item.getAnneeId().equals(a.getKey())).collect(Collectors.toList());
+        List<Consultation> consultations = fetchAll();
 
         request.setAttribute("consultations", consultations);
         request.setAttribute("sessions", sessions);
@@ -39,7 +39,7 @@ public class AffactationFinalServlet extends HttpServlet {
 
         request.setAttribute("tableHeader", a.getValue() + " / " + s.getNom() + " / " + s.getType());
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("affectation-final.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("affectation-final.jsp");//???????????
         requestDispatcher.forward(request, response);
         //this.getServletContext().getRequestDispatcher("/views/employes/gestion.jsp")
     }
@@ -99,12 +99,10 @@ public class AffactationFinalServlet extends HttpServlet {
         List<Consultation> affectations = new ArrayList<>();
         List<LocalProf> localProfs = new ArrayList<>();
 
-        String query = "SELECT DISTINCT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree, a.id as anneeId, s2.id as sessionId " +
+        String query = "SELECT DISTINCT h.id as id, filiere.nom as filiere, m.nom as module, date, heure, duree, a.id as anneeId " +
                 "from filiere" +
                 "         inner join filiere_annee fa on filiere.id = fa.id_filiere" +
                 "         inner join annee a on fa.id_annee = a.id" +
-                "         inner join semestre s on a.id = s.annee" +
-                "         inner join session s2 on s.session = s2.id" +
                 "         inner join filiere_module fm on filiere.id = fm.filiere" +
                 "         inner join module m on fm.module = m.id" +
                 "         inner join horaire h on m.id = h.module";
@@ -149,8 +147,8 @@ public class AffactationFinalServlet extends HttpServlet {
                 String date = resultSet.getString("date");
                 String heure = resultSet.getString("heure");
                 String duree = resultSet.getString("duree");
-                Integer anneeId = resultSet.getInt("anneeId");
-                Integer sessionId = resultSet.getInt("sessionId");
+                Integer anneeId = 0;
+                Integer sessionId = 0;
 
                 List<String> localProfsString = localProfs.stream()
                         .filter(item -> item.getHoraireId().equals(horaireId))

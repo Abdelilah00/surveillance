@@ -13,10 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import java.util.Enumeration;
 import java.util.stream.Collectors;
 
 
@@ -28,6 +26,18 @@ public class AffectationServlet extends HttpServlet {
         List<Affectation> affectations = fetchAll();
         List<Local> locals = fetchLocals();
         List<Professeur> professeurs = GestionServlet.fetchProfesseurs();
+        List<Tmp> x = fetchProfsWithAffectationCount();
+
+        professeurs = professeurs.stream().map(professeur -> {
+            int xx = 0;
+            Optional<String> affectCount = x.stream().filter(item -> item.getKey().equals(professeur.getId())).map(Tmp::getValue).findFirst();
+            if (affectCount.isPresent())
+                xx = Integer.parseInt(affectCount.get());
+
+            professeur.setAffectationCountLeft(5 - xx);
+            return professeur;
+        }).collect(Collectors.toList());
+        //TODO: add affectationCountLeft to professeurs
 
         request.setAttribute("affectations", affectations);
         request.setAttribute("locals", locals);
@@ -59,7 +69,7 @@ public class AffectationServlet extends HttpServlet {
         //response.sendRedirect(request.getRequestURI());
     }
 
-    //region fetchAll 18 4
+    //region fetchAll
     private List<Affectation> fetchAll() {
         List<Affectation> affectations = new ArrayList<>();
 
@@ -124,8 +134,6 @@ public class AffectationServlet extends HttpServlet {
         return locals;
     }
 
-
-
     private List<Horaire> fetchHoraire() {
         List<Horaire> horaires = new ArrayList<>();
 
@@ -149,6 +157,30 @@ public class AffectationServlet extends HttpServlet {
         return horaires;
     }
     //endregion
+
+    private List<Tmp> fetchProfsWithAffectationCount() {
+        List<Tmp> professeurs = new ArrayList<>();
+
+        String query = "SELECT l.surr as profId, COUNT(l.surr) as nbs from location l group by l.surr\n";
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Integer profId = resultSet.getInt("profId");
+                Integer nbs = resultSet.getInt("nbs");
+
+                Tmp consultation = new Tmp(profId, nbs.toString());
+                professeurs.add(consultation);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return professeurs;
+    }
 
     //region update
     public static boolean updateLocal(Integer id, Integer respo) {

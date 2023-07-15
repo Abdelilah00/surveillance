@@ -89,12 +89,13 @@
 <section>
     <div class="login-form">
         <h1>Services</h1>
-        <button class="btn" onclick="window.location.href = 'consultation';"><i class="fa-regular fa-clipboard"></i>
-            Consultation
-        </button>
         <button class="btn" onclick="window.location.href = 'affectation';"><i class="fa-regular fa-user"
                                                                                style="color: #f5f5f5;"></i> Affectation
             Des surveillances
+        <button class="btn" onclick="window.location.href = 'consultation';"><i class="fa-regular fa-clipboard"></i>
+            Consultation
+        </button>
+
         </button>
         <button class="btn" onclick="window.location.href = 'gestion';"><i class="fa-solid fa-book"></i> Gestion des
             profs et modules

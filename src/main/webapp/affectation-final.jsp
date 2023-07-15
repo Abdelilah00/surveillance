@@ -1,11 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.surveillance.Dto.*" %><%--
-  Created by IntelliJ IDEA.
-  User: AbdelilahDehaoui
-  Date: 04/05/2023
-  Time: 14:53
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.example.surveillance.Dto.*" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,11 +20,40 @@
         .container {
             margin-top: 10px;
         }
-        .container-fluid{
+
+        .container-fluid {
             padding: 20px;
         }
+
         .btn-primary {
             background-color: #00718D;
+        }
+    </style>
+
+    <style id="table_style">
+        table {
+            margin-top: 50px;
+            font-size: 14px;
+            display: block;
+            overflow: auto;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border-collapse: collapse;
+        }
+
+        table tbody tr:nth-of-type(odd) {
+            background-color: #dee2e6;
+        }
+
+        table, td, th {
+            border: 1px solid;
+        }
+
+        table tr:first-child {
+            background-color: #bee5eb; /* Apply table-info style to the first row */
+        }
+        table tr td:first-child {
+            background-color: #bee5eb; /* Apply table-info style to the first column */
         }
     </style>
 </head>
@@ -49,124 +73,95 @@
                 </button>
             </div>
         </div>
-
-        <form method="POST" action="affectation-final">
-            <select name="annee" id="annee">
-                <%
-                    List<Tmp> annees = (List<Tmp>) request.getAttribute("annees");
-                    if (annees != null && !annees.isEmpty()) {
-                        for (Tmp annee : annees) { %>
-                <option <% if (request.getAttribute("anneeSelected") != null && request.getAttribute("anneeSelected").equals(annee.getKey())) { %>
-                        selected <% } %> value="<%=annee.getKey()%>"><%=annee.getValue()%>
-                </option>
-                <% }
-                } else { %>
-                <option value="" disabled selected>No modules available</option>
-                <% } %>
-            </select>
-
-            <select name="session" id="session">
-                <%
-                    List<Session> sessions = (List<Session>) request.getAttribute("sessions");
-                    if (sessions != null && !sessions.isEmpty()) {
-                        for (Session session1 : sessions) { %>
-                <option <% if (request.getAttribute("sessionSelected") != null && request.getAttribute("sessionSelected").equals(session1.getId())) { %>
-                        selected <% } %> value="<%=session1.getId()%>"><%=session1.getNom()%> / <%=session1.getType()%>
-                </option>
-                <% }
-                } else { %>
-                <option value="" disabled selected>No modules available</option>
-                <% } %>
-            </select>
-
-            <button class="btn btn-primary" id="btnSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
     </div>
 
-    <table class="table table-bordered table-striped" style="margin-top: 50px; font-size: 14px; display: block; overflow: auto">
-        <thead>
-        <% List<Consultation> affectations = (List<Consultation>) request.getAttribute("consultations"); %>
-        <tr class="table-info">
-            <th colspan="<%= affectations.size() +1%>" id="tableHeader">
-                <%= request.getAttribute("tableHeader") %>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td  class="table-info">Filiere</td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-                <%= affectation.getFiliere() %>
-            </td>
-            <% } %>
-        </tr>
-        <tr>
-            <td  class="table-info">Epreuve</td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-                <%= affectation.getModule() %>
-            </td>
-            <% } %>
-        </tr>
-        <tr>
-            <td class="table-info">Date</td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-                <%= affectation.getDate() %>
-            </td>
-            <% } %>
-        </tr>
-        <tr>
-            <td class="table-info">Heure</td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-                <%= affectation.getHeure() %>
-            </td>
-            <% } %>
-        </tr>
-        <tr>
-            <td class="table-info">Duree</td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-                <%= affectation.getDuree() %>
-            </td>
-            <% } %>
-        </tr>
+    <div id="tableContainer">
+        <table>
+            <thead>
+            <% List<Consultation> affectations = (List<Consultation>) request.getAttribute("consultations"); %>
+            <tr>
+                <th colspan="<%= affectations.size() +1%>" id="tableHeader">
+                    <%= request.getAttribute("tableHeader") %>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Filiere</td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                    <%= affectation.getFiliere() %>
+                </td>
+                <% } %>
+            </tr>
+            <tr>
+                <td>Epreuve</td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                    <%= affectation.getModule() %>
+                </td>
+                <% } %>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                    <%= affectation.getDate() %>
+                </td>
+                <% } %>
+            </tr>
+            <tr>
+                <td class="table-info">Heure</td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                    <%= affectation.getHeure() %>
+                </td>
+                <% } %>
+            </tr>
+            <tr>
+                <td class="table-info">Duree</td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                    <%= affectation.getDuree() %>
+                </td>
+                <% } %>
+            </tr>
 
-        <tr>
-            <td class="table-info">Nom et Prenom</td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-            </td>
-            <% } %>
-        </tr>
+            <tr>
+                <td>Nom et Prenom</td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                </td>
+                <% } %>
+            </tr>
 
-        <% List<Professeur> profs = (List<Professeur>) request.getAttribute("profs"); %>
-        <% for (Professeur prof : profs) { %>
-        <tr>
-            <td class="table-info">
-                <%=prof.getNomComplet() %>
-            </td>
-            <% for (Consultation affectation : affectations) { %>
-            <td>
-                <%= affectation.getLocalOf(prof.getNom()) %>
-            </td>
+            <% List<Professeur> profs = (List<Professeur>) request.getAttribute("profs"); %>
+            <% for (Professeur prof : profs) { %>
+            <tr>
+                <td>
+                    <%=prof.getNomComplet() %>
+                </td>
+                <% for (Consultation affectation : affectations) { %>
+                <td>
+                    <%= affectation.getLocalOf(prof.getNom()) %>
+                </td>
+                <% } %>
+            </tr>
             <% } %>
-        </tr>
-        <% } %>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </section>
 
 <script>
     document.getElementById("printButton").addEventListener("click", function () {
         // Get the table HTML
-        var tableHtml = document.querySelector("table").outerHTML;
+        var tableHtml = document.querySelector("#tableContainer").innerHTML;
 
         // Create a print window
         var printWindow = window.open("", "Print");
-        printWindow.document.write("<html><head><title>Table</title></head><body>");
+        var table_style = document.getElementById("table_style").innerHTML;
+        printWindow.document.write("<html><head><title>Table</title><style type = \"text/css\">" + table_style + "</style></head><body>");
 
         // Add the table HTML to the print window
         printWindow.document.write(tableHtml);
@@ -181,6 +176,8 @@
         printWindow.document.close();
         printWindow.print();
     });
+
+
 </script>
 </body>
 </html>

@@ -2,13 +2,8 @@
 <%@ page import="com.example.surveillance.Dto.*" %>
 <%@ page import="com.example.surveillance.Dto.Module" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.stream.Collectors" %><%--
-  Created by IntelliJ IDEA.
-  User: AbdelilahDehaoui
-  Date: 04/05/2023
-  Time: 14:55
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.stream.Collectors" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -240,7 +235,7 @@
 
             <div class="row">
                 <form action="gestion" method="post">
-                    <h3>Ajouter un nouveau Filiere</h3>
+                    <h3>Ajouter une nouveau Filiere</h3>
                     <input type="hidden" name="action" value="insertFiliere">
                     <div class="form-group">
                         <input type="text" name="nom" placeholder="nom" required>
@@ -425,7 +420,9 @@
                     </td>
                     <td><%= profAndModule.getModule() %>
                     </td>
-                    <td><%= profAndModule.getFiliere() %>
+                    <td><% if (profAndModule.getFiliere() != null) { %>
+                        <%= profAndModule.getFiliere() %>
+                        <% } else { %>&nbsp;<% } %>
                     </td>
                     <td>
                         <button class="btn btn-danger" onclick="deleteModule('<%= profAndModule.getModule() %>')">

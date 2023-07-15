@@ -4,6 +4,15 @@ public class Professeur {
     private Integer id;
     private String nom;
     private String prenom;
+    private Integer affectationCountLeft;
+
+    public Integer getAffectationCountLeft() {
+        return affectationCountLeft;
+    }
+
+    public void setAffectationCountLeft(Integer affectationCountLeft) {
+        this.affectationCountLeft = affectationCountLeft;
+    }
 
     public Professeur(Integer id, String nom, String prenom) {
         this.id = id;
